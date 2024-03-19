@@ -1,0 +1,129 @@
+/*Blidar Alexandra, grupa 2115, Lab1, p1
+Programul defineste functii macro MAXi(i=2,3) care determina si aifseaza maximul dintre 2 si alta, dintre 3 numere introduse de la tastatura*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#define MAX2(a,b){if(a<b)\
+					a=b;\
+}
+#define MAX3(a,b,c)((MAX2(a,b)>c) ? MAX2(a,b) : c)
+#include <stdio.h>
+
+int main()
+{
+	int a, b;
+	printf("\nIntroduceti doua numere intregi:");
+	scanf(" % d % d", &a, &b);
+	printf("\nMaximul dintre 2 numere introduse este:%d", MAX2(a,b));
+	printf("\nIntroduceti un numar intreg");
+	int c;
+	scanf(" % d", &c);
+	printf("\nMaximul dintre 3 numere introduse este:%d", MAX3(a,b,c));
+}
+
+
+/*Blidar Alexandra, grupa 2115, Lab1, p2
+Programul defineste o functie inline minim() care determina si afiseaza minimul dintre 2 si alta dintre 3 numere intregi introduse de la tastatura.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+inline int minim(int a, int b);
+inline int minim3(int, int, int);
+
+int main()
+{
+	int a, b;
+	printf("\nIntroduceti doua numere intregi:");
+	scanf("%d%d", &a, &b);
+	printf("\nMinimul dintre doua numere intregi este:%d", minim(a, b));
+	int c;
+	printf("\nIntroduceti inca un numar intreg:");
+	scanf("%d", &c);
+	printf("\nMinimul dintre trei numere intregi este:%d", minim3(a, b, c));
+
+}
+
+inline int minim(int a, int b) {
+	if (b > a) return a;
+	return b;
+}
+
+inline int minim3(int a, int b, int c) {
+	int n = minim(a, b);
+	if (n > c) return c;
+	return n;
+}
+
+
+/*Blidar Alexandra, grupa 2115, Lab1, p4
+Considerati o functie cu 3 parametrii toti impliciti(int, float, double) care returneaza produsul acelor valori.
+Apelati functi considernad mai multe variante de apel concrete(fara parametri, 1 parametru, 2 parametrii, 3 parametrii).*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+inline double produs(int, float, double);
+
+int main()
+{
+	int a = 15;
+	float b = 25.50;
+	double c = 76576.02;
+	printf("Produsul celor 3 parametrii este:%.3lf", produs(a, b, c));
+}
+
+inline double produs(int m, float n, double o)
+{
+	return m * n * o;
+}
+
+
+/*Blidar Alexandra, grupa 2115, Lab1, p5
+Definiti 3 functii cu acelasi nume dar cu tipuri diferite de parametrii (int, int*, int&) care returneaza radicalul unei valori intregi.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <math.h>
+
+float rad(int x);
+float rad(int* x, int p);
+float rad(int& x, int p);
+
+int main()
+{
+	int x;
+	printf("\nIntroduceti o valoare intreaga: ");
+	scanf("%d", &x);
+	printf("\nRadical din %d este %.2f", x, rad(x));
+	printf("\n%.2f %.2f", rad(x, 0), rad(x, 0));
+}
+
+float rad(int x) {
+	return sqrt(x);
+}
+
+float rad(int* x, int p) {
+	return sqrt(*x);
+}
+
+float rad(int& x, int p) {
+	return sqrt(x);
+}
+
+
+/*Blidar Alexandra, grupa 2115, Lab1, p7
+Programul face o codare simpla prin adaugarea codului ASCII al caracterului, o valoare n=3, folosind macro functii.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#define n 3
+#define ASCII(car, n){car+=n;}
+#include <stdio.h>
+
+int main()
+{
+	char car;
+	printf("\nIntroduceti un caracter:");
+	scanf("%c", &car);
+	ASCII(car, n);
+	printf("\n Noul caracter este: %c (in ASCII: %d)", car, car);
+}

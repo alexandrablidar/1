@@ -1,0 +1,270 @@
+/*Blidar Alexandra, 2115, lab09, p1
+Sa se implementeze clasa Complex care supraincarca operatorii aritmetici cu scopul de a efectua adunari,
+scaderi, inmultiri si impartiri de numere complexe (folosind metode membre (+, -) si functii friend (*, /)).
+Observatie: numerele complexe vor fi definite ca avand o parte reala si una imaginara, ambii coeficienti fiind
+reprezentati prin numere reale.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+class Complex {
+        double r, i;
+public:
+        Complex() {
+                r = 0.;
+                i = 0.;
+        }
+        void setR(double re) {
+                r = re;
+        }
+        void setI(double im) {
+                i = im;
+        }
+        double getR() {
+                return r;
+        }
+        double getI() {
+                return i;
+        }
+        Complex operator+( Complex k) {
+                Complex l;
+                l.r = k.r + r;
+                l.i = k.i + i;
+                return l;
+        }
+        Complex operator-( Complex k) {
+                Complex l;
+                l.r = k.r - r;
+                l.i = k.i - i;
+                return l;
+        }
+        friend Complex operator*(Complex, Complex);
+        friend Complex operator/(Complex, Complex);
+};
+
+Complex operator*(Complex j, Complex k) {
+        Complex l;
+        l.r = j.r * k.r - j.i * k.i;
+        l.i = j.i * k.r + j.r * k.i;
+        return l;
+}
+Complex operator/(Complex j, Complex k) {
+        Complex l;
+        l.r = (j.r * k.r + j.i * k.i) / (k.r * k.r + k.i * k.i);
+        l.i = (k.r * j.i - j.r * k.i) / (k.r * k.r + k.i * k.i);
+        return l;
+}
+
+int main() {
+        Complex a, b, c;
+        a.setR(10.);
+        a.setI(20.);
+        b.setR(20.);
+        b.setI(30.);
+        c = a + b;
+        cout << "Suma este: " << c.getR() << "+i*" << c.getI() << endl;
+        c = a - b;
+        cout << "Diferenta este: " << c.getR() << "+i*" << c.getI() << endl;
+        c = a * b;
+        cout << "Produsul este: " << c.getR() << "+i*" << c.getI() << endl;
+        c = a / b;
+        cout << "Catul este: " << c.getR() << "+i*" << c.getI() << endl;
+}
+
+
+/*Blidar Alexandra, 2115, lab09, p5
+Sa se supraincarce operatorul [ ] astfel incat, folosit fiind asupra unor obiecte din clasa Departament, ce
+contine un tablou de obiecte de tip Angajat (clasa Angajat contine variabilele nume (sir de caractere) si salariu
+(double)), sa returneze toata informatia legata de angajatul al carui numar de ordine este trimis ca parametru.*/
+
+#include <iostream>
+
+using namespace std;
+
+class Departament;
+
+class Angajat {
+private:
+        char nume[20];
+        float salar;
+public:
+        friend class Departament;
+        Angajat() {};
+        void afiseaza();
+        char* getN() {
+                return nume;
+        }
+        float getS() {
+                return salar;
+        }
+};
+
+class Departament {
+private:
+        int n;
+        Angajat* ang;
+
+public:
+        Departament(int nr);
+        void citeste();
+        Angajat operator[](int);
+};
+
+void Departament::citeste() {
+        for (int i = 0; i < n; i++)
+        {
+                cout << "\nEmployees name: ";
+                cin >> ang[i].nume;
+                cout << "Salary: ";
+                cin >> ang[i].salar;
+        }
+}
+
+void Angajat::afiseaza() {
+        cout << "\nName: " << nume << "\n";
+        cout << "Salary: " << salar;
+}
+
+Departament::Departament(int nr) {
+        n = nr;
+        ang = new Angajat[n];
+}
+
+Angajat Departament::operator[](int index) {
+        return ang[index - 1];
+}
+
+
+int main() {
+
+        int nr, ind;
+        cout << "Introduceti numarul de angajati: ";
+        cin >> nr;
+        Departament ob(nr);
+        ob.citeste();
+        cout << "\nDatele carui angajat sa fie afisate: ";
+        cin >> ind;
+        if ((ind >= 1) && (ind <= nr)) {
+                cout << "\nNumarul angajatului " << ind << " este : \n";
+                ob[ind].afiseaza();
+                cout << endl;
+        }
+        else
+                cout << "\nNumarul de angajati este prea mare!";
+}
+
+
+/*Blidar Alexandra, 2115, lab09 p7
+*/
+
+#include  <iostream>
+using  namespace  std;
+
+class  Functia {
+private:
+    int  a, b;
+public:
+    Functia(int  x, int  y) {
+        a = x;
+        b = y;
+    }
+    int  myFunction(int  x) {
+        return  x;
+    }
+    int  myFunction(int  x, int  y) {
+        return  x * y;
+    }
+};
+
+int  main() {
+    int  a, b;
+    cout << "Introduceti primul parametru:  ";
+    cin >> a;
+    cout << "Introduceti al doilea parametru:  ";
+    cin >> b;
+
+    Functia  f(a, b);
+    cout << "\nPrimul parametru este:  " << f.myFunction(a);
+    cout << "\nProdusul este:  " << f.myFunction(a, b);
+}
+
+
+/*Blidar Alexandra, 2115, lab 09, p10
+Definti o clasa numita Number care are o variabila private de tip double. Clasa mai contine un constructor
+explicit vid si unul cu un parametru si o metoda accesor care afiseaza valoarea variabilei din clasa. Scrieti o
+clasa numita Mathemathics, care supraincarca operatorii specifici operatiilor aritmetice elementare (+, -, *, /).
+Clasa are ca atribut un obiect instantiat din prima clasa. Operatiile artimetice se efectueaza asupra datelor
+obtinute din obiectul de tip Number.
+*/
+
+#include  <iostream>
+using  namespace  std;
+
+class  Number {
+    double  nr;
+public:
+    Number(double  x = 0) {
+        nr = x;
+    }
+
+    void  setNr(double  a) {
+        nr = a;
+    }
+
+    double  getNr() {
+        return  nr;
+    }
+
+};
+
+class  Mathematics {
+public:
+    friend  Number  operator+(Number, Number);
+    friend  Number  operator-(Number, Number);
+    friend  Number  operator*(Number, Number);
+    friend  Number  operator/(Number, Number);
+};
+
+Number  operator+(Number  a, Number  b) {
+    Number  nr;
+    nr.setNr(a.getNr() + b.getNr());
+    return  nr;
+}
+
+Number  operator-(Number  a, Number  b) {
+    Number  nr;
+    nr.setNr(a.getNr() - b.getNr());
+    return  nr;
+}
+
+Number  operator*(Number  a, Number  b) {
+    Number  nr;
+    nr.setNr(a.getNr() * b.getNr());
+    return  nr;
+}
+
+Number  operator/(Number  a, Number  b) {
+    Number  nr;
+    nr.setNr(a.getNr() / b.getNr());
+    return  nr;
+}
+
+
+int  main() {
+    Number  ob1(5), ob2(3), ob3(0);
+    cout << "Numbers:  " << ob1.getNr() << ",  " << ob2.getNr() << endl;
+
+    ob3 = ob1 + ob2;
+    cout << "\nAdunare:  " << ob3.getNr() << endl;
+
+    ob3 = ob1 - ob2;
+    cout << "Scadere:  " << ob3.getNr() << endl;
+
+    ob3 = ob1 * ob2;
+    cout << "Produs:  " << ob3.getNr() << endl;
+
+    ob3 = ob1 / ob2;
+    cout << "Cat:  " << ob3.getNr() << endl;
+
+}

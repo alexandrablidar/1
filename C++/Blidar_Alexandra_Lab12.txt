@@ -1,0 +1,210 @@
+/*Blidar Alexandra, 2115, lab 12, p1
+Scrieti un program C++ in care afisati diferite valori in zecimal, octal si hexazecimal. Afisati
+valorile aliniate la dreapta, respectiv la stanga intr-un camp de afisare cu dimensiunea 15.
+Utilizati manipulatorul setfill( ) pentru stabilirea caracterului de umplere si metodele width( )
+si precision( ) pentru stabilirea dimensiunii campului de afisare si a preciziei. */
+
+
+#include <iomanip>
+#include <iostream>
+using namespace std;
+
+int main() {
+	cout << "Numarul in zecimal: " << dec << 100 << "\n";
+	cout.unsetf(ios::dec);
+	cout.setf(ios_base::oct);
+	cout << "Numarul in octal: " << 100 << "\n";
+	cout.unsetf(ios::oct);
+	cout.setf(ios_base::hex);
+	cout << "Numarul in hexazecimal: " << 100 << "\n";
+	//aliniere dreapta
+	cout.setf(ios::right);
+	cout << "\nAliniere dreapta\n";
+	cout.fill('*'); cout.width(15); cout.precision(5);
+	cout << "Test";
+	cout.unsetf(ios::right);
+	//aliniere stanga
+	cout.setf(ios::left);
+	cout << "\nAliniere stanga";
+	cout.fill('*'); cout.width(15); cout.precision(5);
+	cout << "\nTest";
+	cout.unsetf(ios::left);
+}
+
+
+/*Blidar Alexandra, 2115, lab12, p2
+Scrieti o aplicatie C++ in care se citesc de la tastatura date de diferite tipuri, urmand a fi
+afisate pe ecran utilizand manipulatorii standard.*/
+
+#include <iomanip>
+#include <iostream>
+using namespace std;
+const int dim = 21;
+
+int main() {
+	int nr;
+	cout << "Introduceti un numar: ";
+	cin >> nr;
+	cout << "Numarul dupa ce am folosit manipulatorii standard: ";
+	cout.setf(ios::left);
+	cout.fill('^'); cout.width(15); cout.precision(2);
+	cout << nr << endl;
+	cout.unsetf(ios::dec);
+	cout.setf(ios_base::hex); cout << nr << endl;
+	cout.unsetf(ios::hex);
+	cout.setf(ios_base::oct); cout << nr << endl;
+
+	char sir[dim];
+	cout << "\nIntroduceti un sir: ";
+	cin>>sir;
+	cout << "Sirul dupa ce am folosit manipulatorii: ";
+	cout.fill('^'); cout.width(dim);
+	cout << sir;
+}
+
+
+/*Blidar Alexandra, 2115, lab12, p3
+Considerati achizitia de date cu valori reale de la un dispozitiv electronic (10 date). Afisati
+folosind un mesaj adecvat datele primite considerand un format minimal (partea intreaga).
+Determinati media acestor valori (partea intreaga), iar daca depaseste un prag stabilit anterior
+(definit sau citit), afisati aceste date in format detaliat considerand ca avem date de tip real, cu
+o precizie de 3 digiti la partea fractionara.*/
+
+#include <iomanip>
+#include <iostream>
+using namespace std;
+const int dim = 10;
+
+float media(float*);
+
+int main() {
+	int i;
+	float* data = new float[dim], max;
+	cout << "Introduceti datele: \n";
+	for (i = 0; i < dim; i++) {
+		cout << "data[" << i + 1 << "]: ";
+		cin >> data[i];
+	}
+	cout << "\nFormatul minimal este: \n";
+
+	for (i = 0; i < dim; i++) {
+		cout << setprecision(0) << fixed;
+		cout << "data[" << i + 1 << "]: " << data[i] << "\n";
+	}
+	cout.unsetf(ios::fixed);
+
+	cout << "\nIntroduceti un prag de comparare: ";
+	cin >> max;
+	cout << "Media este: " << media(data);
+	if (media(data) > max) {
+		cout << "\n\nMedia este mai mare decat pragul stabilit, datele in format detaliat sunt: \n";
+		for (int i = 0; i < dim; i++) {
+			//cout.setf(ios::scientific);
+			cout.setf(ios::fixed);
+			cout << setprecision(3);
+			//cout << setprecision(3) << fixed;
+			cout << "data[" << i + 1 << "]: " << data[i] << "\n";
+			cout.unsetf(ios::scientific);
+			cout.unsetf(ios::fixed);
+		}
+	}
+	else
+		cout << "\nFunctionarea este corecta.";
+}
+
+float media(float* nr) {
+	float med = 0;
+	for (int i = 0; i < dim; i++) {
+		med += nr[i];
+	}
+	return (med / dim);
+}
+
+
+/*Blidar Alexandra, 2115, lab 12, p4
+Definiti o clasa numita MiscareAccelerata care contine atributele private dc (distanta curenta,
+vc (viteza curenta) si a (acceleratia), atributele dc, vc si a sunt initializate in constructor iar
+valoarea lor este cea data de d0 si v0, si a0 ca si parametri. In clasa sunt supraincarcati
+operatorii de extractie si de insertie pentru a se putea initializa si afisa caracteristicile unei
+instante. Implementati metoda determinaMiscarea care re-calculeaza variabilele dc si vc, pe
+baza unui numar de secunde primit ca si parametru si avand in vedere legea miscarii rectilinii
+uniform accelerate cu acceleratie a0.*/
+
+#include <iomanip>
+#include <iostream>
+using namespace std;
+
+class MiscareAccelerata {
+private:
+	int dc, vc, a;
+public:
+	MiscareAccelerata(int d0 = 0, int v0 = 0, int a0 = 0) {
+		dc = d0;
+		vc = v0;
+		a = a0;
+	}
+
+	void setVC(int x) {
+		vc = x;
+	}
+
+	void setDC(int x) {
+		dc = x;
+	}
+
+	int getVC() {
+		return vc;
+	}
+
+	int getDC() {
+		return dc;
+	}
+
+	int getA() {
+		return a;
+	}
+
+	friend ostream& operator<< (ostream& stream, MiscareAccelerata& ob);
+	friend istream& operator>> (istream& stream, MiscareAccelerata& ob);
+	friend void determinaMiscare(int time, int a0, MiscareAccelerata& ob);
+};
+
+istream& operator>> (istream& stream, MiscareAccelerata& ob) {
+	cout << "\nIntroduceti distanta: ";
+	stream >> ob.dc;
+	cout << "\nIntroduceti viteza: ";
+	stream >> ob.vc;
+	cout << "\nIntroduceti acceleratia: ";
+	stream >> ob.a;
+	return stream;
+}
+
+ostream& operator<< (ostream& stream, MiscareAccelerata& ob) {
+	stream << "\nValorile din obiect sunt: ";
+	stream << "\nDistanta: " << ob.dc;
+	stream << "\nViteza: " << ob.vc;
+	stream << "\nAcceleratie: " << ob.a;
+	stream << "\n";
+
+	return stream;
+}
+
+void determinaMiscare(int t, int acc, MiscareAccelerata& ob) {
+	ob.setVC(t * acc);
+	ob.setDC(t * ob.getVC()); 
+}
+
+int main() {
+
+	int t, a0;
+	cout << "Introduceti timpul: ";
+	cin >> t;
+	cout << "Introduceti acceleratia: ";
+	cin >> a0;
+
+	MiscareAccelerata ob;
+	cin >> ob;
+	cout << ob;
+	determinaMiscare(t, a0, ob);
+	cout << ob;
+}

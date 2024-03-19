@@ -1,0 +1,312 @@
+/*Blidar Alexandra, 2115, lab8, p1
+Construiti o aplicatie in care clasa OraCurenta are ca atribute private ora, minutele si secundele si metode
+publice de tip set/get pentru atributele clasei. Adaugati o functie friend clasei prin care sa se poata copia
+continutul unui obiect OraCurenta dat ca si parametru, intr-un alt obiect instanta a aceleiasi clase care va fi
+returnat de functie, ora fiind insa modificata la Greenwich Mean Time. Utilizati timpul curent al calculatorului.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include<ctime>
+#include<iostream>
+using namespace std;
+
+class OraCurenta {
+        int ora, minute, secunde;
+public:
+        void setOra(int a);
+        int getOra();
+        void setMinute(int a);
+        int getMinute();
+        void setSecunde(int a);
+        int getSecunde();
+        friend OraCurenta copiere(const OraCurenta& orc);
+};
+OraCurenta copiere(const OraCurenta& orc) {
+        OraCurenta o;
+        o.ora = orc.ora;
+        o.minute = orc.minute;
+        o.secunde = orc.secunde;
+        time_t current_time;
+        current_time = time(NULL);
+        tm* tm_gmt = gmtime(&current_time);
+        o.ora = tm_gmt->tm_hour;
+        o.minute = tm_gmt->tm_min;
+        o.secunde = tm_gmt->tm_sec;
+
+        cout << "\nOra curenta este: " << o.ora << ":" << o.minute << ":" << o.secunde << " GMT";
+        return OraCurenta();
+};
+void OraCurenta::setOra(int a) {
+        ora = a;
+};
+int OraCurenta::getOra() {
+        return ora;
+};
+void OraCurenta::setMinute(int a) {
+        minute = a;
+};
+int OraCurenta::getMinute() {
+        return minute;
+};
+void OraCurenta::setSecunde(int a) {
+        secunde = a;
+};
+int OraCurenta::getSecunde() {
+        return secunde;
+};
+int main()
+{
+        int x;
+        OraCurenta o;
+        cout << "\nOra:"; cin >> x;
+        o.setOra(x);
+        cout << "\nMinute:"; cin >> x;
+        o.setMinute(x);
+        cout << "\nSecunde:"; cin >> x;
+        o.setSecunde(x);
+        copiere(o);
+        return 0;
+}
+
+
+/*Blidar Alexandra, gr 2115, lab08, p2
+Scrieti o aplicatie C/C++ in care clasa Calculator are un atribut privat memorie_RAM (int) si o functie prietena 
+tehnician_service( ) care permite modificarea valorii acestui atribut. Functia friend va fi membra intr-o alta
+clasa, Placa_de_baza care are o componenta denumire_procesor (sir de caractere). Scrieti codul necesar care
+permite functiei prietene tehnician_service( ) sa modifice (schimbe) valoarea variabilei denumire_procesor si
+memorie _RAM.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+using namespace std;
+const int dim = 50;
+
+class Placa_de_baza {
+        char denumire_procesor[dim];
+public:
+        void tehnician_service();
+        void setDenumire(char a[dim]);
+        string getDenumire();
+};
+class Calculator {
+        int memorie_RAM;
+public:
+        friend Calculator tehnician_service();
+        void setMemorie(int a);
+        int getMemorie();
+};
+
+void Placa_de_baza::setDenumire(char a[dim]) {
+        strcpy(denumire_procesor, a);
+};
+
+string Placa_de_baza::getDenumire() {
+        return denumire_procesor;
+};
+
+void Calculator::setMemorie(int a) {
+        memorie_RAM = a;
+};
+
+int Calculator::getMemorie() {
+        return memorie_RAM;
+};
+
+void Placa_de_baza::tehnician_service()
+{
+        Calculator c;
+        Placa_de_baza p;
+        char s[dim], r[3];
+        int x, cod;
+        cout << "\nIntroduceti codul necesar efectuarii modificarilor:";
+        cin >> cod;
+        int i = 3;
+        while (cod != 2002 && i > 0)
+        {
+                cout << "\nMai aveti " << i << " incercari!";
+                cout << "\nIntroduceti din nou codul:";
+                cin >> cod; 
+                i--;
+        }
+
+        if (cod == 2002)
+        {
+                cout << "\nDoriti sa faceti modificari ale memoriei RAM?";
+                cin >> r;
+                if (strcmp(r, "da") == 0 || strcmp(r, "Da") == 0 || strcmp(r, "DA") == 0)
+                {
+                        cout << "\nIntroduceti alta valoare pentru memoria RAM:";
+                        cin >> x; c.setMemorie(x);
+                }
+                cout << "\nDoriti sa faceti modificari ale denumirii procesorului?";
+                cin >> r;
+                if (strcmp(r, "da") == 0 || strcmp(r, "Da") == 0 || strcmp(r, "DA") == 0)
+                {
+                        cout << "\nIntroduceti alta denumire pentru procesor:";
+                        cin >> s; p.setDenumire(s);
+                }
+
+        }
+        else cout << "\nAti epuizat incercarile de introducere a codului!\n\tNu puteti efectua modificari!";
+}
+
+int main()
+{
+        Placa_de_baza p;
+        p.tehnician_service();
+        return 0;
+}
+
+
+/*Blidar Alexandra, 2115, lab8, p8
+Considerati clasa Fractie care are doua atribute intregi private a si b pentru numarator si numitor, doua metode 
+de tip set( ) respectiv get( ) pentru fiecare din atributele clasei. Declarati o functie friend simplifica( ) care are 
+ca si parametru un obiect al clasei, returnand un alt obiect simplificat. Considerati o variabila private statica 
+intreaga icount, care va fi initializata cu 0 si incrementata in cadrul constructorilor din clasa. Definiti un 
+constructor explicit fara parametri care initializeaza a cu 0 si b cu 1, si un constructor explicit cu doi parametri 
+care va putea fi apelat daca se verifica posibilitatea definirii unei fractii (b!=0). Definiti un destructor explicit 
+care afiseaza si decrementeaza contorul icount. Definti o functie friend _f_aduna_fractie(...) care are ca si
+parametri doua obiecte de tip Fractie si returneaza suma obiectelor in alt obiect Fractie. Analog definiti functii 
+friend pentru scadere, inmultire si impartire. Instantiati doua obiecte de tip Fractie cu date citite de la tastatura. 
+Afisati atributele initiale si cele obtinute dupa apelul functiei simplifica( ). Printr-o metoda accesor, afisati 
+contorul icount. Efectuati operatiile implementate prin functiile friend ale clasei, initializand alte 4 obiecte cu 
+rezultatele obtinute. Afisati rezultatele si contorul dupa ultima operatie folosind o metoda accesor adecvata.*/
+
+#include<iostream>
+using namespace std;
+
+class Fractie {
+        int a, b;
+        static int icount;
+public:
+        Fractie();
+        Fractie(int x, int y);
+        void setNumarator(int x);
+        int getNumarator();
+        void setNumitor(int x);
+        int getNumitor();
+        friend Fractie simplifica(Fractie f);
+        friend Fractie _f_aduna_fractie(Fractie f1, Fractie f2);
+        friend Fractie _f_scade_fractie(Fractie f1, Fractie f2);
+        friend Fractie _f_inmultire_fractie(Fractie f1, Fractie f2);
+        friend Fractie _f_impartire_fractie(Fractie f1, Fractie f2);
+        ~Fractie();
+};
+int Fractie::icount;
+Fractie::Fractie() {
+        a = 0;
+        b = 1;
+        icount++;
+};
+
+Fractie::Fractie(int x, int y) {
+
+        if (x == y) cout << 1;
+        else cout << x << "/" << y;
+        if (x == 0) cout << 0;
+        if (y == 0) cout << "\nFractia nu exista.";
+        icount++;
+};
+Fractie::~Fractie()
+{
+        cout << "\nicount:" << icount;
+        icount--;
+};
+void Fractie::setNumarator(int x)
+{
+        a = x;
+};
+int Fractie::getNumarator() {
+        return a;
+};
+void Fractie::setNumitor(int x) {
+        b = x;
+};
+int Fractie::getNumitor() {
+        return b;
+};
+Fractie simplifica(Fractie f)
+{
+        int n, m;
+        n = f.a;
+        m = f.b;
+
+        for (int i = 0; i < n; i++)
+        {
+                if (n % i == 0 && m % i == 0) {
+                        f.a = n / i;
+                        f.b = m / i;
+
+                }
+        }
+
+        return Fractie(f.a, f.b);
+}
+Fractie _f_aduna_fractie(Fractie f1, Fractie f2) {
+        Fractie f;
+        if (f1.b == f2.b) { f.b = f1.b; f.a = f1.a + f2.a; }
+        if (f1.b != f2.b) {
+                f.b = f1.b * f2.b;
+                f.a = f1.a * f2.b + f1.b * f2.a;
+        }
+
+        return Fractie(f.a, f.b);
+};
+Fractie _f_scade_fractie(Fractie f1, Fractie f2) {
+        Fractie f;
+        if (f1.b == f2.b) { f.b = f1.b; f.a = f1.a - f2.a; }
+        if (f1.b != f2.b) {
+                f.b = f1.b * f2.b;
+                f.a = f1.a * f2.b - f1.b * f2.a;
+        }
+
+        return Fractie(f.a, f.b);
+};
+Fractie _f_inmultire_fractie(Fractie f1, Fractie f2) {
+        Fractie f;
+        f.a = f1.a * f2.a;
+        f.b = f1.b * f2.b;
+
+        return Fractie(f.a, f.b);
+};
+Fractie _f_impartire_fractie(Fractie f1, Fractie f2) {
+        Fractie f;
+        f.a = f1.a * f2.b;
+        f.b = f1.b * f2.a;
+
+        return Fractie(f.a, f.b);
+};
+int main()
+{
+        Fractie fr1, fr2, adunare, scadere, inmultire, impartire;
+        int r;
+        cout << "\nIntroduceti datele fractiilor:";
+        cout << "\nFractia 1:\nNumarator:"; cin >> r;
+        fr1.setNumarator(r);
+
+        cout << "\nNumitor:"; cin >> r;
+        while (r == 0) {
+                cout << "\nIntroduceti alt numitor:"; cin >> r;
+        }
+        fr1.setNumitor(r);
+
+        cout << "\nFractia 2:\nNumarator:"; cin >> r;
+        fr2.setNumarator(r);
+        cout << "\nNumitor:"; cin >> r;
+        while (r == 0) {
+                cout << "\nIntroduceti alt numitor:"; cin >> r;
+        }
+        fr2.setNumitor(r);
+        cout << "\nAdunarea celor 2 fractii este:";
+        adunare = _f_aduna_fractie(fr1, fr2);
+        cout << "\nFractia simplificata este:";
+        simplifica(_f_aduna_fractie(fr1, fr2));
+        cout << "\nScaderea celor 2 fractii este:";
+        scadere = _f_scade_fractie(fr1, fr2);
+        cout << "\nProdusul celor 2 fractii este:";
+        inmultire = _f_inmultire_fractie(fr1, fr2);
+        cout << "\nImpartirea celor 2 fractii este:";
+        impartire = _f_impartire_fractie(fr1, fr2);
+
+
+        return 0;
+}

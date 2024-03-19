@@ -1,0 +1,301 @@
+/*Blidar Alexandra, gr 2115, lab05, p1
+Programul foloseste o structura de date cu numele Scerc care contine
+raza ca si o variabila de tip intreg. Intr-un program C/C++, declarati doua variabile c1, c2 de
+tip Scerc si calculati aria si circumferinta lor pentru valori ale razei introduse de la tastatura.
+Aceleasi cerinte vor fi implementate in aceeasi aplicatie folosind o clasa numita Cerc cu
+atributul raza de tip private, clasa ce va contine pe langa metodele de calcul ale ariei si
+perimetrului un constructor explicit cu parametru, un destructor. Introduceti in clasa o metoda
+de tip accesor, getRaza(), care permite accesul la data privata raza si pe care sa o folositi
+pentru a afisa in main( ) raza obiectelor.*/
+/*Scerc.h: struct Scerc {
+	int raza;
+};
+double ar_cerc(Scerc c) {
+	return 3.14 * c.raza * c.raza;
+}
+double per_cerc(Scerc c) {
+	return 3.14 * 2 * c.raza;
+}*/
+/*Cerc.h: class Cerc {
+	int raza;
+public: Cerc(int rc) {
+	raza = rc;
+}
+	  double calcA() {
+		  return 3.14 * raza * raza;
+	  }
+	  double calcP() {
+		  return 3.14 * 2 * raza;
+	  }
+	  int getRaza() {
+		  return raza;
+	  }
+	  ~Cerc() {
+		  cout << "\nDestructor\n";
+	  }
+};
+*/
+
+#define _CRT_SECURE_NO_WARNNINGS
+
+#include <iostream>
+using namespace std;
+#include "Scerc.h"
+#include "Cerc.h"
+
+int main() {
+	int r;
+	cout << "\nPentru struct:";
+	Scerc c1, c2;
+	cout << "\nIntroduceti raza pentru c1:";
+	cin >> c1.raza;
+	cout << "\nAria c1=" << ar_cerc(c1);
+	cout << "\nPerimetrul c1=" << per_cerc(c1);
+	cout << "\nIntroduceti raza pentru c2:";
+	cin >> c2.raza;
+	cout << "\nAria c2=" << ar_cerc(c2);
+	cout << "\nPerimetrul c2=" << per_cerc(c2);
+	cout << "\nPentru class:";
+	Cerc cc1(5), cc2(8);
+	r = cc1.getRaza();
+	cout << "\nRaza cc1 =" << r;
+	cout << "\nAria cc1=" << cc1.calcA();
+	cout << "\nPerimetrul cc1=" << cc1.calcP();
+	r = cc2.getRaza();
+	cout << "\nRaza cc2 =" << r;
+	cout << "\nAria cc2=" << cc2.calcA();
+	cout << "\nPerimetrul cc2=" << cc2.calcP();
+}
+
+
+/*Blidar Alexandra, 2115, Lab05, p2
+Sa se defineasca o clasa numita myString (intr-un fisier numit strClass.h) care sa fie compusa
+din metodele specifice care efectueaza urmatoarele operatii pe siruri de caractere:
+- determina lungimea sirului primit la intrare.
+- determina ultima pozitie de aparitie a unui anumit caracter din sirul de intrare.
+- returneaza sirul primit la intrare, scris cu caractere majuscule.
+- returneaza sirul primit la intrare, scris cu caractere minuscule.
+- returneaza numarul de aparitii ale unui anumit caracter din sirul primit.*/
+
+class myString {
+	char sir[11];
+public:
+	void setS(char *s);
+	int lungS() {
+		return strlen(sir);
+	}
+	string majS() {
+		for (int i = 0;i < strlen(sir);i++)
+			if (sir[i] >= 'a' && sir[i] <= 'z')
+				sir[i] -= 32;
+		return sir;
+	}
+	string minS() {
+		for (int i = 0;i < strlen(sir);i++)
+			if (sir[i] >= 'A' && sir[i] <= 'Z')
+				sir[i] += 32;
+		return sir;
+	}
+	int nrapS(int ch) {
+		int k=0;
+		for (int i = 0;i < strlen(sir);i++)
+			if (sir[i] == ch)
+				k++;
+		return k;
+	}
+};
+
+
+/*Blidar Alexandra, 2115, Lab05, p3
+Să se scrie programul care citeşte de la tastatură un şir de maxim 10 caractere şi care, pe baza
+clasei implementate anterior, efectuează asupra şirului de intrare operaţiile definite în cadrul
+clasei.*/
+/*strClass.h: 
+class myString {
+	char sir[11];
+public:
+	void setS(char *s);
+	int lungS() {
+		return strlen(sir);
+	}
+string majS() {
+	for (int i = 0;i < strlen(sir);i++)
+		if (sir[i] >= 'a' && sir[i] <= 'z')
+			sir[i] -= 32;
+	return sir;
+}
+string minS() {
+	for (int i = 0;i < strlen(sir);i++)
+		if (sir[i] >= 'A' && sir[i] <= 'Z')
+			sir[i] += 32;
+	return sir;
+}
+int nrapS(int ch) {
+	int k = 0;
+	for (int i = 0;i < strlen(sir);i++)
+		if (sir[i] == ch)
+			k++;
+	return k;
+}
+};
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+using namespace std;
+#include <string>
+#include "strClass.h"
+
+void myString::setS(char* s) {
+	if (s != 0)
+		strcpy_s(sir, s);
+	else
+		strcpy_s(sir, "Sir inexistent");
+}
+
+int main() {
+	myString sir;
+	char s1[11];
+	cout << "\nIntroduceti un sir de caractere:";
+	cin.getline(s1, 21);
+	sir.setS(s1);
+	cout << "\nSirul este:" << s1;
+	cout << "\nLungimea sirlui este:" << sir.lungS();
+	cout << "\nSirul scris cu majuscule este:" << sir.majS();
+	cout << "\nSirul scris cu minuscule este:" << sir.minS();
+	char ch;
+	cout << "\nIntroduceti un caracter:"; cin >> ch;
+	cout << "\Numarul de aparitii al caraterului " << ch << " este:" << sir.nrapS(ch);
+}
+
+
+/*Blidar Alexandra, gr 2115, lab 05 p5
+Sa se defineasca o clasa care implementeaza metodele:
+- int plus(int x, int y), care returneaza suma valorilor primite la apelul metodei;
+- int minus(int x, int y), care returneaza diferenta valorilor primite la apelul metodei;
+- int inmultit(int x, int y), care returneaza produsul valorilor primite la apelul metodei;
+- float impartit(int x, int y), care returneaza catul valorilor primite la apelul metodei;
+si apoi sa se scrie aplicatia care utilizeaza aceasta clasa. Considerati si cazul in care in cadrul
+clasei aveti atributele de tip int x si y, caz in care metodele nu vor mai avea parametrii.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+class Operatii
+{
+	int x, y;
+public:
+	/*int plus(int x, int y) {
+		return x + y;
+	}
+	int minus(int x, int y) {
+		return x - y;
+	}
+	int inmultit(int x, int y) {
+		return x * y;
+	}
+	int impartit(int x, int y) {
+		if (y != 0)
+			return x / y;
+	}*/
+	 Operatii(int a, int b){
+		x=a;
+		y=b;
+	}
+	int plus() {
+		return x + y;
+	}
+	int minus() {
+		return x - y;
+	}
+	int inmultit() {
+		return x * y;
+	}
+	int impartit() {
+		if (y != 0)
+			return x / y;
+	}
+};
+
+int main() {
+	Operatii op(5, 6);
+	cout << "\nSuma numerelor este: " << op.plus();
+	cout << "\nDiferenta numerelor este: " << op.minus();
+	cout << "\nProdusul numerelor este: " << op.inmultit();
+	cout << "\nCatul numerelor este: " << op.impartit();
+}
+
+
+/*Blidar Alexandra gr 2115, lab05 p7
+Sa se scrie un program care implementeaza clasa Aritmetica cu doua atribute a si b de tip
+numeric (int, float sau double) si metode setter si getter adecvate. Implementati metoda suma()
+in interiorul clasei si metoda diferenta() ce apartine de asemenea clasei, dar e definita in afara
+clasei, metode care vor fi apelate prin intermediul unui obiect al clasei Aritmetica. In functia
+principala main() instantiati trei obiecte de tip Aritmetica. Modificati atributele a si b la fiecare
+obiect in parte folsind metodele de tip setter. Aplicati asupra lor operatiile de adunare si
+scadere pe care le-ati implementat prin metodele suma() si diferenta(). Metodele returneaza
+valorile numerice corespunzatoare operatiei folosind cele doua atribute ale clasei valori ce le
+veti afisa in main(). La fiecare grup de operatii adunare/scadere afisati valorile atributelor
+obiectului folosind metodele de tip getter.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+class Aritmetica {
+	int a, b;
+public:
+	void setA(int x) {
+		a = x;
+	}
+	int getA() {
+		return a;
+	}
+	void setB(int y) {
+		b = y;
+	}
+	int getB() {
+		return b;
+	}
+	int suma() {
+		return a + b;
+	}
+	int diferenta();
+};
+int Aritmetica::diferenta() {
+	return a - b;
+}
+
+int main() {
+	Aritmetica ob1, ob2, ob3;
+	int aux;
+	cout << "\nPentru obiectul 1: a= ";
+	cin >> aux;
+	ob1.setA(aux);
+	cout << ' ' << " iar b= ";
+	cin >> aux;
+	ob1.setB(aux);
+	cout << "\nCele doua numere sunt, a=" << ob1.getA() << " si b=" << ob1.getB();
+	cout << "\nSuma celor doua numere este: " << ob1.suma();
+	cout << "\nDiferenta celor doua numere este: " << ob1.diferenta();
+	cout << "\nPentru obiectul 2: a= ";
+	cin >> aux;
+	ob2.setA(aux);
+	cout << ' ' << " iar b= ";
+	cin >> aux;
+	ob2.setB(aux);
+	cout << "\nCele doua numere sunt, a=" << ob2.getA() << " si b=" << ob2.getB();
+	cout << "\nSuma celor doua numere este: " << ob2.suma();
+	cout << "\nDiferenta celor doua numere este: " << ob2.diferenta();
+	cout << "\nPentru obiectul 3: a= ";
+	cin >> aux;
+	ob3.setA(aux);
+	cout << ' ' << " iar b= ";
+	cin >> aux;
+	ob3.setB(aux);
+	cout << "\nCele doua numere sunt, a=" << ob3.getA() << " si b=" << ob3.getB();
+	cout << "\nSuma celor doua numere este: " << ob3.suma();
+	cout << "\nDiferenta celor doua numere este: " << ob3.diferenta();
+}

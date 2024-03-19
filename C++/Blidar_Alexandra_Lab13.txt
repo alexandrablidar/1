@@ -1,0 +1,82 @@
+/*Blidar Alexandra, gr 2115, lab 13, p1
+Sa se scrie un program care foloseste metoda seekg( ) pentru pozitionare la mijlocul fisierului
+si apoi afiseaza continutul fisierului incepand cu aceasta pozitie. Numele fisierului se citeste
+din linia de comanda.*/
+
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main(int argc, char* argv[]){
+	if (argc != 2) {
+		cout << "Specificati numele fisierului! \n";
+		exit(1);
+	}
+	ifstream fin;
+	fin.open(argv[1]);
+
+	fin.seekg(0, fin.end);
+	int length = fin.tellg() / 2;
+	fin.seekg(length, fin.beg);
+
+	char* buffer = new char[length];
+	fin.read(buffer, length);
+	cout.write(buffer, length);
+
+	fin.close();
+	delete[]buffer;
+	
+}
+
+
+/*Blidar Alexandra, gr 2115, lab 13, p4
+Scrieti o aplicatie C++ in care deschideti un fisier in mod binar pentru citire. Afisati un mesaj
+corespunzator daca fisierul nu a fost creat in prealabil si cereti reintroducerea numelui
+fisierului. Presupunand ca in fisierul deschis exista inregistrari de tip agenda (nume, localitate,
+numar de telefon), utilizati supraincarcarea operatorilor de insertie si extractie pentru afisarea
+pe ecran a continutului fisierului*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <fstream>
+using namespace std;
+const int dim = 30;
+
+class Persoana {
+protected:
+	char* nume = new char[dim];
+	char* loc = new char[dim];
+	char* nr_tel = new char[10];
+public:
+	void setN(char* nume) {
+		strcpy(this->nume, nume);
+	}
+
+	void setL(char* loc) {
+		strcpy(this->loc, loc);
+	}
+
+	void setT(char* nr_tel) {
+		strcpy(this->nr_tel, nr_tel);
+	}
+
+	char* getN() {
+		return nume;
+	}
+
+	char* getL() {
+		return loc;
+	}
+
+	char* getT() {
+		return nr_tel;
+	}
+
+	friend ostream& operator <<(ostream& stream, Persoana& ob);
+	friend istream& operator >>(istream& stream, Persoana& ob);
+	~Persoana() {
+		delete[]nume;
+		delete[]loc;
+		delete[]nr_tel;
+	}
+};

@@ -1,0 +1,424 @@
+/*Blidar Alexandra, gr 2115, lab 4, pb 1
+1. Implementati metoda bulelor (Bubble-Sort) care foloseste un indicator flag si optimizeaza ciclul interior.
+Se cere atat scrierea functiei, cat si partea de program care face citirea si afisarea sirului initial si a celui ordonat.*/
+#include<iostream>
+using namespace std;
+#define dim 30
+void SortBubble(int tab[], int n);
+void main(void) {
+    int  n, tab[dim];
+    cout << "Introduceti numarul de elemente: ";
+    cin >> n;
+    while (n < 0 || n>30)
+    {
+        cout << "Introduceti alt numar de elemente: ";
+        cin >> n;
+    }
+    cout << "Introduceti elementele sirului: " << endl;
+    for (int i = 0; i < n; i++)
+    {
+        cout << "x[" << i << "]:"; cin >> tab[i];
+    }
+    cout << "Sirul initial este :" << endl;
+    for (int i = 0; i < n; i++)
+        cout << tab[i] << "\t";
+    SortBubble(tab, n);
+    cout << endl << "Sirul ordonat este:" << endl;
+    for (int i = 0; i < n; i++)
+        cout << tab[i] << "\t";
+
+
+}
+void SortBubble(int tab[], int n)
+{
+    int aux, ok;
+    do {
+        ok = 1;
+        for (int i = 0; i < n - 1; i++) {
+            if (tab[i] > tab[i + 1]) {
+                aux = tab[i];
+                tab[i] = tab[i + 1];
+                tab[i + 1] = aux;
+                ok = 0;
+            }
+        }
+    } while (ok == 0);
+}
+
+
+/*Blidar Alexandra, gr 2115, lab04, p2
+Modificati programul care exemplifica metoda de sortare rapida explicita (QuickSort) asa incat sa ordoneze descrescator sirul initial.*/
+#include<iostream>
+using namespace std;
+void quickSort(int* p, int prim, int ultim);
+int main()
+{
+	int x[20], n;
+	cout << "Introduceti numarul de elemente:"; 
+	cin >> n;
+	cout << "\nIntroduceti numerele:";
+	for (int i = 0; i < n; i++)
+	{
+		cout << "\nx[" << i << "]="; cin >> x[i];
+	}
+	quickSort(x, 0, n - 1);
+	cout << "\nSirul sortat este:";
+	for (int i = 0; i < n; i++)
+	{
+		cout << x[i] << "\t";
+	}
+	return 0;
+}
+void quickSort(int* p, int prim, int ultim) {
+	int i, j, piv, temp;
+	i = prim;
+	j = ultim;
+	piv = p[ultim];
+
+	do {
+		while (p[i] > piv)
+			i++;
+		while (p[j] < piv)
+			j--;
+		if (i < j) {
+			temp = p[i];
+			p[i] = p[j];
+			p[j] = temp;
+		}
+		if (i <= j) {
+			j--;
+			i++;
+		}
+	} while (i < j);
+
+	if (prim < j)
+		quickSort(p, prim, j);
+	if (i < ultim)
+		quickSort(p, i, ultim);
+}
+
+
+/*Blidar Alexandra, gr 2115, lab 04, p3
+Programul foloseste functiile de biblioteca pentru sortari (qsort()) pentru a aranja un tablou unidimensional de inregistari 
+cu nume, prenume, cod numeric personal, data angajarii dupa doua campuri la alegere (un exemplu ar fi: 
+crescator dupa nume si descrescator dupa data angajarii).*/
+
+#include<iostream>
+using namespace std;
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+void citire(struct Pers*, int n);
+void afisare(struct Pers*, int n);
+
+struct Dataang {
+    int an;
+    int luna;
+    int zi;
+};
+struct Pers {
+
+    int cnp;
+    char nume[20];
+    char prenume[20];
+    struct Dataang dataa;
+}p[19];
+int cmp(const void* a, const void* b);
+int cmp_nume(const void* a, const void* b);
+int main() {
+    struct Pers p[19];
+
+
+    int n;
+    cout << "\nIntroduceti numarul de angajati:"; cin >> n;
+    while (n < 0 || n>19)
+    {
+        cout << "\nIntroduceti alt numar de angajati:"; cin >> n;
+    }
+    cout << "\nIntroduceti datele angajatilor:";
+    for (int i = 0; i < n; i++)
+        citire(p + i, n);
+
+    qsort(p, n, sizeof(p[0]), cmp);
+
+    cout << "\nDatele sortate dupa cnp(descrescator):\n";
+    for (int i = 0;i < n;i++)
+        afisare(p + i, n);
+
+    qsort(p, n, sizeof(p[0]), cmp_nume);
+    cout << "\nDatele sortate dupa nume(alfabetic):\n";
+    for (int i = 0; i < n; i++)
+        afisare(p + i, n);
+
+}
+void citire(struct Pers* p, int n)
+{
+
+    cout << "\nIntroduceti numele angajatului:"; cin >> p->nume;
+    cout << "\nIntroduceti prenumele angajatului:"; cin >> p->prenume;
+    cout << "\nIntroduceti CNP-ul angajatului:"; cin >> p->cnp;
+    cout << "\nIntroduceti data angajarii:";
+    cout << "\n\tziua:"; cin >> (p->dataa).zi;
+    cout << "\n\tluna:"; cin >> (p->dataa).luna;
+    cout << "\n\tanul:"; cin >> (p->dataa).an;
+
+}
+void afisare(struct Pers* p, int n)
+{
+
+    cout << "\nNumele angajatului:" << p->nume;
+    cout << "\nPrenumele angajatului:" << p->prenume;
+    cout << "\nCNP-ul angajatului:" << p->cnp;
+    cout << "\ndata angajarii:";
+    cout << "\n\tziua:" << (p->dataa).zi;
+    cout << "\n\tluna:" << (p->dataa).luna;
+    cout << "\n\tanul:" << (p->dataa).an;
+
+}
+int cmp(const void* a, const void* b) {
+    Pers* pa = (Pers*)a;
+    Pers* pb = (Pers*)b;
+    return (pb->cnp - pa->cnp);
+}
+int cmp_nume(const void* a, const void* b)
+{
+    Pers* pa = (Pers*)a;
+    Pers* pb = (Pers*)b;
+    return strcmp(pa->nume, pb->nume);
+
+}
+
+
+/*Blidar Alexandra, gr 2115, lab 4, pb 4
+Scrieti o aplicatie C/C++ in care plecand de la doua tablouri (unidimensionale) de numere naturale sa se
+obtina un al treilea tablou care sa contina toate elementele tablourilor sursa fara a se repeta, aranjate in ordine crescatoare.*/
+#include <iostream>
+using namespace std;
+
+void citire(int tab[], int n);
+void afisare(int tab[], int n);
+void sortBubble(int* p, int n);
+void egalare(int a[], int b[], int c[], int n);
+void eliminare(int tab[], int n);
+int main()
+{
+    int tab1[20], tab2[20], tab3[40];
+    int n;
+    cout << "\nIntroduceti dimensiunea tablourilor:"; cin >> n;
+    while (n < 0 || n>20)
+    {
+        cout << "\nIntroduceti din nou dimensiunea tablourilor:"; cin >> n;
+    }
+    citire(tab1, n);
+    citire(tab2, n);
+
+    cout << "\nPrimul tablou este:";
+    afisare(tab1, n);
+    cout << "\nAl doilea tablou este:";
+    afisare(tab2, n);
+
+    int N = 2 * n;
+
+    egalare(tab1, tab2, tab3, n);
+    sortBubble(tab3, N);
+
+    cout << "\nAl treilea tablou sortat este:";
+    eliminare(tab3, N);
+
+
+
+    return 0;
+}
+void citire(int tab[], int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        cout << "\ntab[" << i << "]="; cin >> tab[i];
+    }
+}
+void afisare(int tab[], int n)
+{
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << "\t" << tab[i];
+    }
+
+}
+void egalare(int a[], int b[], int c[], int n)
+{
+    int k = 0, l = 0, N = 2 * n;
+
+    for (int j = 0; j < N; j++)
+    {
+
+        if (j < n) { c[j] = a[k]; k++; }
+        if (j >= n) { c[j] = b[l]; l++; }
+
+    }
+
+}
+void sortBubble(int* p, int n)
+{
+    int i, j, temp;
+    for (i = 1; i < n; i++) {
+        for (j = n - 1; j >= i; j--) {
+            if (p[j - 1] > p[j]) {
+                temp = p[j];
+                p[j] = p[j - 1];
+                p[j - 1] = temp;
+            }
+        }
+    }
+}
+void eliminare(int tab[], int n)
+{
+    for (int i = 0; i < n; i++)
+        if (tab[i] == tab[i + 1]) {
+            for (int j = i + 1; j < n; j++)
+                tab[j] = tab[j + 1];
+            n--;
+        }
+    for (int i = 0; i < n; i++)
+    {
+        cout << "\t" << tab[i];
+    }
+
+}
+
+
+/*Blidar Alexandra, gr 2115, lab 4, pb 9
+Generati in mod aleatoriu un tablou de maxim 200 valori intregi, valori nu mai mari de 100.
+Determinati si afisati valoarea minima, mediana si maxima generata, sortand elementele printr-o metoda la alegere.
+Determinati valoarea medie si comparati aceasta valoare cu cea mediana (afisati diferenta).
+Verificati daca valoarea medie este in tabloul initial generat.*/
+
+#include<iostream>
+using namespace std;
+void generare(int tab[], int n);
+void sortBubble(int* p, int n);
+float medie(int tab[], int n);
+int main()
+{
+    int n, tab[200];
+    cout << "\nIntroduceti numarul de elemente:";
+    cin >> n;
+    while (n < 0 || n>200)
+    {
+        cout << "\nIntroduceti numarul de elemente:";
+        cin >> n;
+    }
+    generare(tab, n);
+    sortBubble(tab, n);
+    cout << "\nValoarea minima generata este:" << tab[0];
+    cout << "\nValoarea maxima generata este:" << tab[n - 1];
+    cout << "\nValoarea mediana generata este:" << tab[(n - 1) / 2];
+    cout << "\nValoarea medie este:" << medie(tab, n);
+    cout << "\nDiferenta dintre valoarea medie si cea mediana este:" << medie(tab, n) - tab[(n - 1) / 2];
+    for (int i = 0; i < n; i++)
+    {
+        if (tab[i] == medie(tab, n)) cout << "\nValoarea medie se afla in tabloul generat.";
+        break;
+    }
+
+    return 0;
+}
+void generare(int tab[], int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        tab[i] = rand() % 100;
+    }
+}
+void sortBubble(int* p, int n)
+{
+    int i, j, temp;
+    for (i = 1; i < n; i++) {
+        for (j = n - 1; j >= i; j--) {
+            if (p[j - 1] > p[j]) {
+                temp = p[j];
+                p[j] = p[j - 1];
+                p[j - 1] = temp;
+            }
+        }
+    }
+}
+float medie(int tab[], int n)
+{
+    float m = 0;
+    for (int i = 0; i < n; i++)
+    {
+        m += tab[i];
+    }
+    return m * 1.0 / n;
+}
+
+
+/*Blidar Alexandra, gr 2115, lab 4, pb 10
+Generati printr-un mecanism aleatoriu un tablou de maxim 200 de valori reale (prin doua tablouri de aceiaşi dimensiune,
+primul fiind partea intreaga (nu mai mare de 100), al doilea partea fractionara (limitata la 20 ca intreg ce devine .20 fractionar),
+tabloul real fiind obtinut prin combinarea partii intregi şi fractionare. Afişati tablourile generate, cel real obtinut.
+Sortati folosind functia qsort( ) tabloul real si afisati rezultatul obtinut.*/
+#include<iostream>
+using namespace std;
+void generare(int a[], int b[], int n);
+void afisare(int a[], int n);
+int cmp(const void* a, const void* b);
+int main()
+{
+    float tab[200];
+    int n, tab1[100], tab2[100];
+    cout << "\nIntroduceti numarul de elemente ale tabloului:"; cin >> n;
+
+    generare(tab1, tab2, n);
+    cout << "\nPrimul tablou generat este:";
+    afisare(tab1, n);
+    cout << "\nAl doilea tablou generat este:";
+    afisare(tab2, n);
+    for (int i = 0; i < n; i++)
+    {
+        tab[i] = tab1[i] + 0.01 * tab2[i];
+    }
+    cout << "\nTabloul real obtinut este:";
+    for (int i = 0; i < n; i++)
+    {
+        cout << "\t" << tab[i];
+    }
+    qsort(tab, n, sizeof(float), cmp);
+    cout << "\nTabloul sortat este:";
+    for (int i = 0; i < n; i++)
+    {
+        cout << "\t" << tab[i];
+    }
+
+    return 0;
+}
+void generare(int a[], int b[], int n)
+{
+    int x;
+    for (int i = 0;i < n;i++)
+    {
+
+        a[i] = rand() % 100;
+
+    }
+    int i = 0;
+    while (n)
+    {
+        x = rand() % 100;
+        if (x < 20) { n--; b[i] = x; i++; }
+    }
+
+}
+void afisare(int a[], int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        cout << "\t" << a[i];
+    }
+}
+int cmp(const void* a, const void* b)
+{
+    return *(int*)a - *(int*)b;
+}

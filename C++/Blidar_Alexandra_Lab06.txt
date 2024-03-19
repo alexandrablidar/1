@@ -1,0 +1,383 @@
+/*Blidar Alexandra, gr 2115, lab 06, p1
+Sa se scrie o aplicatie C++ care implementeaza o clasa numita PilotF1. Clasa defineste
+variabilele private nume (sir de caractere), echipa (sir de caractere), varsta (int), record (int),
+nr_pole_position (int). Ca membri publici, clasa contine metode accesor/getter si
+mutator/setter distincte pentru fiecare din atributele clasei.
+In functia main( ), sa se creeze 3 instante distincte ale clasei PilotF1 si sa se foloseasca
+metodele mutator/setter pentru a initializa datele din fiecare obiect cu informatia
+corespunzatoare citita de la tastatura. Folosind metodele accesor/getter, sa se afiseze toate
+datele pilotului cu cel mai bun record.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <string.h>
+using namespace std;
+
+class PilotF1 {
+	char nume[21];
+	char ec[21];
+	int varsta;
+	int rec;
+	int nr_pp;
+public:
+	void setN(char a[]) {
+		strcpy_s(nume, a);
+	}
+	void setE(char b[]) {
+		strcpy_s(ec, b);
+	}
+	void setV(int v) {
+		varsta = v;
+	}
+	void setR(int r) {
+		rec = r;
+	}
+	void setNR(int nr) {
+		nr_pp = nr;
+	}
+	void getN() {
+		cout<<nume;
+	}
+	void getE() {
+		cout << ec;
+	}
+	int getV() {
+		return varsta;
+	}
+	int getR() {
+		return rec;
+	}
+	int getNR() {
+		return nr_pp;
+	}
+};
+
+int main() {
+	PilotF1 P1, P2, P3;
+	int aux;
+	char ch[21];
+	cout << "\nPentru pilotul 1: \nIntroduceti numele: ";
+	cin>>ch[22];
+	P1.setN(ch);
+	cout << "\nIntroduceti echipa: ";
+	cin >> ch[22];
+	P1.setE(ch);
+	cout << "\nIntroduceti varsta: ";
+	cin >> aux;
+	P1.setV(aux);
+	cout << "\nIntroduceti recordul: ";
+	cin >> aux;
+	P1.setR(aux);
+	cout << "\nIntroduceti numarul pole position: ";
+	cin >> aux;
+	P1.setNR(aux);
+	cout << "\nPentru pilotul 2: \nIntroduceti numele: ";
+	cin >> ch[21];
+	P2.setN(ch);
+	cout << "\nIntroduceti echipa: ";
+	cin >> ch[21];
+	P2.setE(ch);
+	cout << "\nIntroduceti varsta: ";
+	cin >> aux;
+	P2.setV(aux);
+	cout << "\nIntroduceti recordul: ";
+	cin >> aux;
+	P2.setR(aux);
+	cout << "\nIntroduceti numarul pole position: ";
+	cin >> aux;
+	P2.setNR(aux);
+	cout << "\nPentru pilotul 1: \nIntroduceti numele: ";
+	cin >> ch[21];
+	P3.setN(ch);
+	cout << "\nIntroduceti echipa: ";
+	cin >> ch[21];
+	P3.setE(ch);
+	cout << "\nIntroduceti varsta: ";
+	cin >> aux;
+	P3.setV(aux);
+	cout << "\nIntroduceti recordul: ";
+	cin >> aux;
+	P3.setR(aux);
+	cout << "\nIntroduceti numarul pole position: ";
+	cin >> aux;
+	P3.setNR(aux);
+	cout << "\nDatele pilotului cu cel mai bun record sunt: ";
+	if (P1.getR() < P2.getR() && P1.getR() < P3.getR()) {
+		P1.getN();
+		P1.getE();
+		cout << P1.getV() << ' ' << P1.getR() << ' ' << P1.getNR();
+	}
+	else {
+		if (P2.getR() < P1.getR() && P2.getR() < P3.getR()) {
+			P2.getN();
+			P2.getE();
+			cout << P2.getV() << ' ' << P2.getR() << ' ' << P2.getNR();
+		}
+		else if (P3.getR() < P1.getR() && P3.getR() < P2.getR()) {
+			P3.getN();
+			P3.getE();
+			cout << P3.getV() << ' ' << P3.getR() << ' ' << P3.getNR();
+		}
+	}
+}
+
+
+/*Blidar Alexandra, gr 2115, lab 06, p2
+Sa se modifice exemplul 2 astfel incat codul sa poata fi lansat in executie considerand
+atributul clasei private si metode public get/set adecvate. In main() instantiati un obiect din
+clasa care va fi modificat si apoi accesat, afisand rezultatul.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+class Test2 {
+	int x;
+public:
+	void setX(int a) {
+		x = a;
+	}
+	int getX() {
+		return x;
+	}
+};
+
+int main() {
+	Test2 ob1;//modificat
+	//Test2 ob1; //instantiere imposibila, constructorul este privat!
+	int a;
+	cout << "\nExemplu modificat: ";
+	cout << "\nIntroduceti valoarea variabilei de tip \"int\" din clasa: ";
+	cin >> a;
+	//incercare (imposibila) de initializare a variabilei din clasa
+	//ob1.x = a;
+	ob1.setX(a);
+	cout << "\nValoarea variabilei este: " << ob1.getX();
+	cout << "\nModificati valoarea variabilei: ";
+	cin >> a;
+	ob1.setX(a);
+	cout << "\nValoarea modificata este: " << ob1.getX();
+}
+
+
+/*Blidar Alexandra, gr 2115, lab06, p4
+Sa se scrie o clasa care are ca variabila privata un camp de tip data, definit intr-o structura
+externa clasei (zi – int, luna – int, an - int). Clasa contine metode mutator/setter si
+accesor/getter (publice) pentru informatia privata, ca si structura de tip data, pentru fiecare
+camp din structura. In clasa se mai afla o metoda publica care:
+- scrie intr-un fisier toate datele din anul curent care preced (cronologic) data stocata in
+clasa considerand doar atributul an ca fiind variabil;
+In functia main( ), dupa instantierea clasei si citirea de la tastatura a componentelor unei date,
+sa se apeleze metodele membre si apoi sa se verifice rezultatele obtinute. */
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+#include <fstream>
+ofstream fout("Fout.h");
+
+struct data1 {
+	int zi;
+	int luna;
+	int an;
+};
+
+class Data_c {
+	data1 d1;
+public:
+	void setZ(int z){
+		d1.zi = z;
+	}
+	void setL(int l) {
+		d1.luna = l;
+	}
+	void setA(int a) {
+		d1.an = a;
+	}
+	int getZ() {
+		return d1.zi;
+	}
+	int getL() {
+		return d1.luna;
+	}
+	int getA() {
+		return d1.an;
+	}
+	void dataStocata();
+};
+
+ void Data_c :: dataStocata() {
+	for (int i = 1;i <= d1.luna;i++)
+			for (int j = 1;j <= 31;j++) {
+				fout << j << '.' << i << '.' << "\n";
+				if (d1.luna == i && d1.zi == j)
+					break;
+			}
+}
+
+int main() {
+	Data_c data1;
+	int zi,luna, an;
+	cout << "\nInroduceti o data calendaristica: \nZiua: ";
+	cin >> zi;
+	data1.setZ(zi);
+	cout << "\nLuna: ";
+	cin >> luna;
+	data1.setL(luna);
+	cout << "\nAnul: ";
+	cin >> an;
+	data1.setA(an);
+	cout << "\nData calendaristica citita este: " << data1.getZ() << ':' << data1.getL() << ':' << data1.getA();
+	data1.dataStocata();
+}
+
+
+/*Blidar Alexandra, gr 2115, lab 06, p6
+Sa se scrie o aplicatie C++ care implementeaza o clasa numita Triunghi. Clasa cuprinde
+atributele private pentru laturile a, b, c de tip int, un constructor cu parametrii, metode setter si
+getter adecvate. Calculati aria si perimetrul prin metode specifice clasei. Scrieti o metoda care
+sa indice daca triunghiul este dreptunghic sau nu.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+class Triunghi {
+	int a, b, c;
+public:
+	Triunghi(int x, int y, int z) {
+		a = x;
+		b = y;
+		c = z;
+	}
+	void setA(int m) {
+		a = m;
+	}
+	void setB(int n) {
+		b = n;
+	}
+	void setC(int p) {
+		c= p;
+	}
+	int getA() {
+		return a;
+	}
+	int getB() {
+		return b;
+	}
+	int getC() {
+		return c;
+	}
+	int ariaT();
+	int perT();
+	void dreptT();
+};
+int Triunghi::ariaT() {
+	int p;
+	p = (a + b + c) / 2;
+	return sqrt(p * (p - a) * (p - b) * (p - c));
+}
+int Triunghi::perT() {
+	return a + b + c;
+}
+void Triunghi::dreptT() {
+	if (a * a == b * b + c * c)
+		cout << "\nTriunghiul este dreptunghic.";
+	else {
+		if (b * b == a * a + c * c)
+			cout << "\nTriunghiul este dreptunghic.";
+		else {
+			if (a * c == b * b + a * a)
+				cout << "\nTriunghiul este dreptunghic.";
+			else cout << "\nTriunghiul nu este dreptunghic";
+		}
+	}
+}
+
+int main() {
+	Triunghi t1(5, 4, 3);
+	int aux;
+	cout << "\nLaturile triunghiului sunt: \na=" << t1.getA() << "\nb=" << t1.getB() << "\nc=" << t1.getC();
+	cout << "\Aria triunghiului este: " << t1.ariaT();
+	cout << "\nPerimetrul triunghiului este: " << t1.perT();
+	cout << "\nVerificam daca triunghiul este dreptunghic";
+	t1.dreptT();
+	cout << "\nModificati laturile triunghiului: \na=";
+	cin >> aux; t1.setA(aux);
+	cout << "\nb="; cin >> aux; t1.setB(aux);
+	cout << "\nc="; cin >> aux; t1.setC(aux);
+	cout << "\nAria modificata este: " << t1.ariaT();
+	cout << "\nPerimetrul modificat este: " << t1.perT();
+	cout << "\nVerificam daca noul triunghiul este dreptunghic";
+	t1.dreptT();
+}
+
+
+/*Blidar Alexandra, gr 2115, lab 06 p7
+Sa se scrie clasa Seif, cu atributele private cifru (pin - sir de caractere, 4 cifre int) si suma de
+tip double. Definiti metodele private getSuma() si setSuma( ) si metodele public puneInSeif( )
+si scoateDinSeif( ) cu care sa accesati suma de bani care se afla in seif. Metoda puneInSeif( )
+poate apela getSuma() si setSuma( ), metoda scoateDinSeif( ) poate apela getSuma( )
+si setSuma( ). Instantiati obiecte din clasa Seif, iar metodele puneInSeif( ) si scoateDinSeif( )
+vor putea accesa suma doar daca parametrul de tip cifru utilizat corespunde obiectului
+instantiat. In caz de diferenta de cifru, se va da un mesaj.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <string.h>
+using namespace std;
+const int dim = 4;
+
+
+class Seif {
+	char cifru2[10];
+	double suma=100;
+	void setSuma(double s) {
+		suma = s;
+	}
+	double getSuma() {
+		return suma;
+	}
+public:
+	void setC(char cif[]) {
+		strcpy(cifru2, cif);
+	}
+	char* getC() {
+		return cifru2;
+	}
+	double puneInSeif(double s) {
+		setSuma(suma+s);
+		return getSuma();
+	}
+	double scoateDinSeif(double s) {
+		setSuma(suma-s);
+		return getSuma();
+	}
+};
+
+int main() {
+	Seif ob1, ob2;
+	char cif[10];
+	int s;
+	char cifru[11] = "abcdef1234";
+	cout << "\nPentru primul obiect introduceti un cifru: ";
+	cin >> cif;
+	ob1.setC(cif);
+	cout << "\nDaca cifrul introdus este corect, veti putea accesa seiful.";
+	if (strcmp(cifru, cif)==1) {
+		cout << "\nCifru corect! Introduceti o suma: ";
+		cin >> s;
+		cout << "\nSuma din seiful dumneavostra este: " << ob1.puneInSeif(s);
+	}
+	else cout << "\nCifru gresit!";
+	cout << "\nPentru al doilea obiect introduceti un cifru: ";
+	cin >> cif;
+	ob2.setC(cif);
+	cout << "\nDaca cifrul introdus este corect, veti putea accesa seiful.";
+	if (strcmp(cifru, cif)==1) {
+		cout << "\nCifru corect! Introduceti o suma: ";
+		cin >> s;
+		cout << "\nSuma din seiful dumneavostra este: " << ob2.scoateDinSeif(s);
+	}
+	else cout << "\nCifru gresit!";
+}

@@ -1,0 +1,335 @@
+/*Blidar Alexandra, 2115, lab 11, p2
+La exemplul al patrulea extindeti clasa de baza cu alte metode virtuale, redefinite in clasele
+derivate, cum ar fi metode get( ) si set( ) pentru greutatea vehiculului (variabila greutate).*/
+
+#include<iostream>
+using namespace std;
+
+class Vehicul {
+protected:
+        int roti;
+        float greutate;
+public:
+        virtual void mesaj() {
+                cout << "Mesaj din clasa Vehicul\n";
+        }
+        virtual void setG(float gr) {
+                greutate = gr;
+        }
+        virtual float getG() {
+                return greutate;
+        }
+};
+
+class Automobil : public Vehicul {
+        int incarcatura_pasageri;
+public:
+        void mesaj() override {
+                cout << "Mesaj din clasa Automobil\n";
+        }
+        void setG(float greutate) override {
+                this->greutate = greutate+incarcatura_pasageri;
+        }
+        float getG() override {
+                return greutate;
+        }
+};
+
+class Camion : public Vehicul {
+        int incarcatura_pasageri;
+        float incarcatura_utila;
+public:
+        int pasageri() {
+                return incarcatura_pasageri;
+        }
+        void setIP(int ip,int iu) {
+                incarcatura_pasageri = ip;
+                incarcatura_pasageri = iu;
+        }
+        void setG(float greutate) override {
+                this->greutate = greutate + incarcatura_pasageri + incarcatura_utila;
+        }
+        float getG() override {
+                return greutate;
+        }
+};
+
+class Barca : public Vehicul {
+        int incarcatura_pasageri;
+public:
+        int pasageri() {
+                return incarcatura_pasageri;
+        }
+        void mesaj() override {
+                cout << "Mesaj din clasa Barca\n";
+        }
+        void setG(float greutate) override {
+                this->greutate = greutate + incarcatura_pasageri;
+        }
+        float getG() override {
+                return greutate;
+        }
+};
+
+int main() {
+        // apel direct, prin intermediul unor obiecte specifice
+        Vehicul monocicleta;
+        Automobil ford;
+        Camion semi;
+        Barca barca_de_pescuit;
+        monocicleta.mesaj();
+        ford.mesaj();
+        semi.mesaj();//din Vehicul ca si CB
+        barca_de_pescuit.mesaj();
+        ford.setG(500);
+        ford.getG;
+        semi.setIP(200, 300);
+        semi.setG(400);
+        semi.getG();
+        // apel prin intermediul unui pointer specific
+        Vehicul* pmonocicleta;
+        Automobil* pford;
+        Camion* psemi;
+        Barca* pbarca_de_pescuit;
+        cout << "\n";
+        pmonocicleta = &monocicleta;
+        pmonocicleta->mesaj();
+        pford = &ford;
+        pford->mesaj();
+        psemi = &semi;
+        psemi->mesaj();//din CB
+        pbarca_de_pescuit = &barca_de_pescuit;
+        pbarca_de_pescuit->mesaj();
+        // apel prin intermediul unui pointer catre un obiect al clasei de baza
+        cout << "\n";
+        pmonocicleta = &monocicleta;
+        pmonocicleta->mesaj();//Vehicul
+        pmonocicleta = &ford;//upcasting
+        pmonocicleta->mesaj();//Automobil
+        pmonocicleta = &semi;//upcasting
+        pmonocicleta->mesaj();//Camion- Vehicul
+        pmonocicleta = &barca_de_pescuit;//upcasting
+        pmonocicleta->mesaj();//Barca
+        return 0;
+}
+
+
+/*Blidar Alexandra, 2115, lab11, p3
+Sa se scrie un program C++ in care se defineste o clasa Militar cu o metoda publica virtuala
+sunt_militar( ) care indica apartenenta la armata. Derivati clasa Militar pentru a crea clasa
+Soldat si clasa Ofiter. Derivati mai departe clasa Ofiter pentru a obtine clasele SubLocotenent,
+Locotenent, Capitan, Maior, Colonel, General. Redefiniti metoda sunt_militar( ) pentru a
+indica gradul militar pentru fiecare clasa specifica. Instantiati fiecare clasa Soldat,
+Locotenent,...,General, si apelati metoda sunt_militar( ).
+*/
+
+#include  <iostream>
+using  namespace  std;
+
+class  Militar {
+public:
+        virtual  void  sunt_militar() {}
+};
+
+class  Soldat : public  Militar {
+public:
+        void  sunt_militar() {
+                cout << "Acesta este un soldat";
+        }
+};
+
+class  Ofiter : public  Militar {
+public:
+        void  sunt_militar() {
+                cout << "\nAcesta este un ofiter";
+        }
+};
+
+class  SubLocotenent : public  Ofiter {
+public:
+        void  sunt_militar() {
+                cout << "\nAcesta este un sublocotenent";
+        }
+};
+
+class  Maior : public  Ofiter {
+public:
+        void  sunt_militar() {
+                cout << "\nAcesta este un maior";
+        }
+};
+
+class  Locotenent : public  Ofiter {
+public:
+        void  sunt_militar() {
+                cout << "\nAcesta este un locotenent";
+        }
+};
+
+class  Capitan : public  Ofiter {
+public:
+        void  sunt_militar() {
+                cout << "\nAcesta este un capitan";
+        }
+};
+
+class  Colonel : public  Ofiter {
+public:
+        void  sunt_militar() {
+                cout << "\nAcesta este un colonel";
+        }
+};
+
+class  General : public  Ofiter {
+public:
+        void  sunt_militar() {
+                cout << "\nAcesta este un general";
+        }
+};
+
+int  main() {
+        Soldat  s;
+        s.sunt_militar();
+
+        Ofiter  o;
+        o.sunt_militar();
+
+        Maior m;
+        m.sunt_militar();
+
+        General  gen;
+        gen.sunt_militar();
+
+        SubLocotenent  sloc;
+        sloc.sunt_militar();
+
+        Locotenent  loc;
+        loc.sunt_militar();
+
+        Capitan  cap;
+        cap.sunt_militar();
+
+        Colonel  col;
+        col.sunt_militar();
+}
+
+
+/*Blidar Alexandra, 2115, lab 11, p4
+Declarati o clasa Animal, care va contine o metoda pur virtuala, respira( ) si doua metode
+virtuale manaca( ) si doarme( ). Derivati in mod public o clasa Caine si alta Peste, care vor
+defini metoda pur virtuala, iar clasa Caine va redefini metoda mananca( ), iar Peste metoda
+doarme( ). Instantiati obiecte din cele doua clase si apelati metodele specifice. Definiti apoi un
+tablou de tip Animal, care va contine obiecte din clasele derivate, daca e posibil. Daca nu,
+gasiti o solutie adecvata.*/
+
+#include  <iostream>
+using  namespace  std;
+
+class  Animal {
+public:
+        virtual  void  respira() {
+                cout << "\nAnimalul respira";
+        }
+        virtual  void  mananca() {
+                cout << "\nAnimalul mananca";
+        }
+        virtual  void  doarme() {
+                cout << "\nAnimalul doarme";
+        }
+};
+
+class  Caine : public  Animal {
+public:
+        void  respira() {
+                cout << "\nCainele respira";
+        }
+
+        void  mananca() {
+                cout << "\nCainele mananca";
+        }
+
+};
+
+class  Peste : public  Animal {
+public:
+        void  respira() {
+                cout << "\nPestele respira";
+        }
+
+        void  doarme() {
+                cout << "\nPestele doarme";
+        }
+};
+
+int  main() {
+        Caine  c;
+        c.respira();
+        c.mananca();
+        cout << "\n";
+        Peste  p;
+        p.respira();
+        p.doarme();
+}
+
+
+/*Blidar Alexandra, 2115, lab 11, p5
+Definiti o clasa abstracta care contine 3 declaratii de metode pur virtuale pentru concatenarea,
+intreteserea a doua siruri de caractere si inversarea unui sir de caractere primit ca parametru. O
+subclasa implementeaza corpurile metodelor declarate in clasa de baza. Instantiati clasa
+derivata si afisati rezultatele aplicarii operatiilor implementate in clasa asupra unor siruri de
+caractere citite de la tastatura. Examinati eroarea data de incercarea de a instantia clasa de
+baza. */
+
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <iostream>
+using  namespace  std;
+#include  <cstring>
+const int dim = 50;
+
+class  Baza {
+public:
+    virtual  char* inverseaza(char* in) = 0;
+    virtual  char* concateneaza(char* in1, char* in2) = 0;
+};
+
+class  Derivata : public  Baza
+{
+public:
+    char* in = new  char[dim];
+    char* in1 = new  char[dim];
+    char* in2 = new  char[dim];
+
+    char* inverseaza(char* in) {
+        char* in3 = new  char[dim];
+        strcpy(in3, in);
+        _strrev(in3);
+        return  in3;
+    }
+
+    char* concateneaza(char* in1, char* in2) {
+        char* in3 = new  char[dim];
+        strcpy(in3, in1);
+        strcat(in3, in2);
+        return  in3;
+    }
+
+
+    ~Derivata() {
+        delete[]in;
+        delete[]in1;
+        delete[]in2;
+    }
+};
+
+int  main() {
+    Derivata  ob;
+    cout << "\nIntorduceti un string: ";
+    char* sir1 = new  char[dim];
+    cin >> sir1;
+    cout << "\nIntroduceti al doilea string: ";
+    char* sir2 = new  char[dim];
+    cin >> sir2;
+    cout << "\nCele doua stringuri concatenate sunt: " << ob.concateneaza(sir1, sir2);
+    cout << "\nPrimul string inversat este: " << ob.inverseaza(sir1);
+    cout << "\nAl doilea string inversat este: " << ob.inverseaza(sir2);
+}

@@ -1,0 +1,425 @@
+/*Blidar Alexandra, 2115, lab10, p1
+Implementati programul prezentat in exemplul 3 si examinati eventualele erori date la
+compilare daca exista prin eliminarea comentariilor. Modificati programul astfel incat sa se
+poata accesa din functia main( ), prin intermediul obiectului obiect_derivat, si metodele
+aduna( ) si scade( ) din clasa de baza pastrand mostenirea de tip private.*/
+
+#include  <iostream>
+using  namespace  std;
+
+class  Baza {
+protected:  int  a, b;
+public:
+    Baza() { a = 1, b = 1; }
+    void  setA(int  a) {
+        this->a = a;
+    }
+    void  setB(int  b) {
+        this->b = b;
+    }
+    int  getA() {
+        return  a;
+    }
+    int  getB() {
+        return  b;
+    }
+    int  aduna() {
+        return  a + b;
+    }
+    int  scade() {
+        return  a - b;
+    }
+};
+
+class  Derivata : private  Baza {
+public:
+    int  inmulteste() {
+        return  a * b;
+    }
+    int  aduna() {
+        return  a + b;
+    }
+    int  scade() {
+        return  a - b;
+    }
+};
+
+int  main() {
+    Baza  obiect_baza;
+    cout << "Afis  din  baza  (val.  initiale):  " << obiect_baza.getA() << "  " << obiect_baza.getB() << '\n';
+    obiect_baza.setA(2);
+    obiect_baza.setB(3);
+
+    cout << "Afis  din  baza  (redefinit):  " << obiect_baza.getA() << "  " << obiect_baza.getB() << '\n';
+    Derivata  obiect_derivat;
+    cout << "\nProdusul  este  (din  derivat  cu  val.  initiale:  " << obiect_derivat.inmulteste();
+    obiect_derivat.scade();
+    obiect_derivat.aduna();
+
+}
+
+
+/*Blidar Alexandra, 2115, lab 10, p2
+Folosind modelul claselor de la mostenirea publica, implementati doua clase, astfel:
+- clasa de baza contine metode pentru:
+-codarea unui sir de caractere (printr-un algoritm oarecare- recomandat XOR cu o
+masca fixa) => public;
+-afisarea sirului original si a celui rezultat din transformare = > public;
+- clasa derivata contine o metoda pentru:
+-scrirea rezultatului codarii intr-un fisier, la sfarsitul acestuia.
+Fiecare inregistrare are forma: nr_inregistrare: sir_codat;
+Accesul la metodele ambelor clase se face prin intermediul unui obiect rezultat prin
+instantierea clasei derivate. Programul care foloseste clasele citeste un sir de caractere de la
+tastatura si apoi, �n functie de optiunea utilizatorului, afiseaza rezultatul codarii sau il scrie in
+fisier.
+*/
+
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <iostream>
+using  namespace  std;
+const int dim = 50;
+
+class  Baza {
+
+protected:
+    char* sir;
+
+public:
+    Baza() {
+        sir = new  char[dim];
+    }
+
+    void  setS(char* sir) {
+        strcpy(this->sir, sir);
+    }
+
+    char* getS() {
+        return  sir;
+    }
+
+    void  codare() {
+        cout << "\nCodare:  ";
+        int  i = 0;
+        while (i < strlen(sir)) {
+            if (sir[i] == 'a') {
+                sir[i] = '3';
+            }
+            i++;
+        }
+    }
+
+    void  decodare() {
+        cout << "\nDecodare:  ";
+        int  i = 0;
+        while (i < strlen(sir)) {
+            if (sir[i] == '3') {
+                sir[i] = 'a';
+            }
+            i++;
+        }
+    }
+
+    void  afiseaza() {
+        cout << "\nCodul este:  " << sir;
+    }
+
+    ~Baza()
+    {
+        delete[]sir;
+    }
+};
+
+class  Derivata : public  Baza {
+public:
+    Derivata() {
+        strcpy(sir, "gol");
+    }
+    FILE* file;
+    void  adaugare(int  ok) {
+        if (ok == false) {
+            file = fopen("sir.txt", "a");
+            for (int i = 0; i < strlen(sir); i++) {
+                fprintf(file, "%c", sir[i]);
+            }
+            fclose(file);
+            cout << "\nCod adaugat!";
+        }
+        else {
+            if (ok == true) {
+                codare();
+                afiseaza();
+            }
+            else {
+                if (ok == 2) {
+                    decodare();
+                    afiseaza();
+                }
+            }
+        }
+    }
+};
+
+int  main() {
+
+    Derivata  ob;
+    char* sir = new  char[dim];
+    cout << "Introduceti codul:  ";
+    cin >> sir;
+    ob.setS(sir);
+    cout << "\nOptiunile:  0  adauga,  1  codeaza,  2  decodeaza";
+    cout << "\nIntroduceti ce doriti sa faceti cu codul:  ";
+    int  ok;
+    cin >> ok;
+    ob.afiseaza();
+    ob.adaugare(ok);
+}
+
+
+/*Blidar Alexandra, 2115, Lab10, p4
+Definiti o clasa numita Triangle care are 3 atribute protected pentru laturi si o metoda care
+calculeaza perimetrul unui triunghi ale carui laturi sunt citite de la tastatura (folosite de un
+constructor adecvat) si apoi o clasa derivata in mod public din Triangle, Triangle_extended,
+care in plus, calculeaza si aria triunghiului. Folosind obiecte din cele doua clase apelati
+metodele specifice. Verificati inainte de instantiere posibilitatea definirii unui triunghi.
+*/
+
+#include <iostream>
+using namespace std;
+
+class Triangle {
+protected:
+        int c, a, b;
+public:
+        Triangle(int a = 0, int b = 0, int c = 0) {
+                c = a;
+                a = b;
+                b = c;
+        }
+        void setC(int c) {
+                this->c = c;
+        }
+
+        void setA(int a) {
+                this->a = a;
+        }
+
+        void setB(int b) {
+                this->b = b;
+        }
+
+        int getC() {
+                return c;
+        }
+
+        int getA() {
+                return a;
+        }
+
+        int getB() {
+                return b;
+        }
+
+        int perimetru() {
+                return c + a + b;
+        }
+};
+
+class Triangle_extended : public Triangle {
+public:
+        Triangle_extended(int a = 0, int b = 0, int c = 0) {
+                this->c = c;
+                this->a = a;
+                this->b = b;
+        }
+
+        float arie() {
+                float semiP = (float)(c + a + b) / 2;
+                return sqrt(semiP * (semiP - c) * (semiP - a) * (semiP - b));
+        }
+};
+
+int main() {
+        cout << "Introduceti laturile triunghiului: ";
+        int a, b, c;
+        cin >> a >> b >> c;
+        Triangle ob;
+        ob.setC(c);
+        ob.setA(a);
+        ob.setB(b);
+        cout << "\nPerimetrul este: " << ob.perimetru();
+        Triangle_extended ob_extended(c, a, b);
+        cout << "\nAria este: " << ob_extended.arie();
+}
+
+
+/*Blidar Alexandra,2115, lab10, p5
+Adaugati in clasa derivata din programul anterior o metoda care calculeaza inaltimea
+triunghiului. Apelati metoda folosind un obiect adecvat.*/
+
+#include <iostream>
+using namespace std;
+
+class Triangle {
+protected:
+        int c, a, b;
+public:
+        Triangle(int a = 0, int b = 0, int c = 0) {
+                c = a;
+                a = b;
+                b = c;
+        }
+        void setC(int c) {
+                this->c = c;
+        }
+
+        void setA(int a) {
+                this->a = a;
+        }
+
+        void setB(int b) {
+                this->b = b;
+        }
+
+        int getC() {
+                return c;
+        }
+
+        int getA() {
+                return a;
+        }
+
+        int getB() {
+                return b;
+        }
+
+        int perimetru() {
+                return c + a + b;
+        }
+};
+
+class Triangle_extended : public Triangle {
+public:
+        Triangle_extended(int a = 0, int b = 0, int c = 0) {
+                this->c = c;
+                this->a = a;
+                this->b = b;
+        }
+
+        float arie() {
+                float semiP = (float)(c + a + b) / 2;
+                return sqrt(semiP * (semiP - c) * (semiP - a) * (semiP - b));
+        }
+        float inaltime() {
+                int baza;
+                if (a > b)
+                        baza = a;
+                else
+                        baza = b;
+                if (c > baza)
+                        baza = c;
+                return 2 * arie() / baza;
+        }
+};
+
+int main() {
+        cout << "Introduceti laturile triunghiului: ";
+        int a, b, c;
+        cout << "\na = "; cin >> a;
+        cout << "\nb = "; cin >> b;
+        cout << "\nc = "; cin >> c;
+        Triangle ob;
+        ob.setC(c);
+        ob.setA(a);
+        ob.setB(b);
+        cout << "\nPerimetrul este: " << ob.perimetru();
+        Triangle_extended ob_ext(c, a, b);
+        cout << "\nAria este: " << ob_ext.arie();
+        cout << "\nInaltimea este: " << ob_ext.inaltime();
+}
+
+
+/*Blidar Alexandra, 2115, lab 10, p7
+Considerati o clasa de baza Cerc definita printr-un atribut protected raza, care are un
+constructor cu parametrii si o metoda care determina aria cercului. Considerati o alta clasa de
+baza Patrat cu un atribut protected latura similar clasei Cerc. Derivati un mod public clasa
+CercPatrat care are un constructor ce apeleaza constructorii claselor de baza si o metoda care
+verifica daca patratul de latura l poate fi inclus in cercul de raza r. De asemenea clasa derivata
+determina si perimetrul celor doua figuri geometrice. Instantiati un obiect din clasa derivata
+(datele introduse de la tastatura), determinati aria si perimetrul cercului si al patratului. Afisati
+daca patratul cu latura introdusa poate fi inclus in cercul de raza specificat.
+*/
+
+#include <iostream>
+
+using namespace std;
+
+class Cerc {
+protected:
+        int raza;
+public:
+        Cerc(int raza = 0) {
+                this->raza = raza;
+        }
+
+        void setR(int raza) {
+                this->raza = raza;
+        }
+
+        int getR() {
+                return raza;
+        }
+
+        float aria() {
+                return 3.14 * raza * raza;
+        }
+};
+
+class Patrat {
+protected:
+        int l;
+public:
+        Patrat(int l = 0) {
+                this->l = l;
+        }
+
+        float aria() {
+                return l * l;
+        }
+};
+
+class CercPatrat : public Cerc, public Patrat {
+public:
+        CercPatrat(int r, int l) {
+                Cerc cerc(r);
+                Patrat patrat(l);
+        }
+
+        int pP(int l) {
+                return 4 * l;
+        }
+
+        double pC(int r) {
+                return 4 * r;
+        }
+
+        int incl(int lat, int raza) {
+                int ok = 0;
+                if (pP(lat) < pC(raza))
+                        ok = 1;
+                return ok;
+        }
+};
+
+int main() {
+        int l, r;
+        cout << "\nIntroduceti latura patratului: ";
+        cin >> l;
+        cout << "\nIntroduceti raza cercului: ";
+        cin >> r;
+        CercPatrat ob(r, l);
+        cout << "\nPerimetrul patratului este: " << ob.pP(l);
+        cout << "\nPerimetrul cercului este: " << ob.pC(r);
+        if (ob.incl(l, r) == 1) {
+                cout << "\nPatratul poate fi inclus in cerc!";
+        }
+}

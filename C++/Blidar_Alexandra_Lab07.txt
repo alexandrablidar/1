@@ -1,0 +1,446 @@
+/*Blidar Alexandra, 2115, lab7, p1
+Modificati exemplul 3 astfel incat sa permita obtinerea unui nou punct, avand coordonatele
+obtinute prin adunarea coordonatelor a doua astfel de puncte. Numele noului punct va fi
+rezultat prin concatenarea numelor celor doua puncte. Adaugati si testati o metoda care
+calculeaza distanta de la un punct la origine. Modificati clasa astfel incat sa eliminati metoda
+afis() folosind in schimb metode accesor adecvate. Eliminati de asemenea atributul
+lungime_sir modificand adecvat metodele clasei.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+
+class CPunctText {
+        int x;
+        int y;
+        char sNume[21];
+public:
+        //constructor explicit vid
+        CPunctText();
+        //constructor cu parametri
+        CPunctText(int ix, int iy, const char* sText = "Punct");
+        //constructor de copiere
+        CPunctText(const CPunctText& pct);
+        //destructor:
+        //~CPunctText();
+        int getX() {
+                return x;
+        }
+        int getY() {
+                return y;
+        }
+        char* getN() {
+                return sNume;
+        }
+        int nouX(int a, int b) {
+                x = a + b;
+                return x;
+        }
+        int nouY(int a, int b) {
+                y = a + b;
+                return y;
+        }
+        char* nouN(char a[], char b[])
+        {
+                strcat(a, b);
+                return strcpy(sNume, a);
+        }
+        float dist_PO() {
+                return sqrt((x * x) + (y * y)*1.0);
+        }
+};
+CPunctText::CPunctText() {
+        cout << "\n constructor explicit vid";
+        x = y = 0;
+        //lungime_sir = dim_sir;
+        //sNume = new (std::nothrow) char[21];
+        strcpy(sNume, "Gol");
+}
+CPunctText::CPunctText(int ix, int iy, const char* sText) {
+        cout << "\n constructor cu parametri";
+        x = ix;
+        y = iy;
+        strcpy(sNume, sText);
+}
+CPunctText::CPunctText(const CPunctText& pct) {
+        cout << "\n constructor de copiere";
+        x = pct.x;
+        y = pct.y;
+        strcpy(sNume, pct.sNume);
+}
+/*CPunctText::~CPunctText() {
+        cout << "\n destructor";
+        delete[] sNume;
+}*/
+
+int main() {
+        CPunctText cpt1(1, 2, "Punct1");//apel constructor cu parametri
+        CPunctText cpt2(cpt1); //apel constructor de copiere
+        CPunctText cpt3 = cpt2; //apel constructor de copiere
+        CPunctText cpt4(4, 5); //apel constructor cu parametri ultimul fix
+        CPunctText cpt5;
+        cout << "\nNumele punctului este: " << cpt3.getN() << "\nX = " << cpt3.getX() << "\nY = " << cpt3.getY();
+        cout << "\nNumele punctului este: " << cpt4.getN() << "\nX = " << cpt4.getX() << "\nY = " << cpt4.getY();
+        cout << "\nNumele noului punct este: " << cpt5.nouN(cpt3.getN(), cpt4.getN());
+        cout<< "\n X = " << cpt5.nouX(cpt3.getX(), cpt4.getX()) << "\n Y = " << cpt5.nouY(cpt3.getY(), cpt4.getY());
+        cout << "\nDistanta de la origine la punct este : " << cpt5.dist_PO();
+}
+
+
+/*Blidar Alexandra, 2115, lab07, p2
+Sa se scrie o aplicatie C/C++ care sa modeleze obiectual un tablou unidimensional de numere
+reale. Creati doua instante ale clasei si afisati valorile unui al 3-lea tablou, obtinute prin
+scaderea elementelelor corespunzatoare din primele 2 tablouri. Daca tablourile au lungimi
+diferite, tabloul rezultat va avea lungimea tabloului cel mai scurt.
+*/
+
+#define _CRT_SCURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+class TablouU {
+        int n;
+        int v[101];
+public:
+        void setN(int x) {
+                n = x;
+        }
+        void setV(int a[]) {
+                for (int i = 0;i<n;i++)
+                        v[i] = a[i];
+        }
+        void tab_scad(TablouU a, TablouU b) {
+                if (a.n < b.n)
+                        n = a.n;
+                else
+                        n = b.n;
+                for (int i = 0;i < n;i++) {
+                        v[i] = a.v[i] - b.v[i];
+                        cout << v[i] << ' ';
+                }
+        }
+};
+int main() {
+        TablouU t1, t2, t3;
+        int n, a[101];
+        cout << "\nPentru primul tablou: \nN = ";
+        cin >> n;
+        t1.setN(n);
+        for (int i = 0;i < n;i++) {
+                cout << "v[" << i << "]=";
+                cin >> a[i];
+        }
+        t1.setV(a);
+        cout << "\nPentru al doilea tablou: \nN = ";
+        cin >> n;
+        t2.setN(n);
+        for (int i = 0;i < n;i++) {
+                cout << "v[" << i << "]=";
+                cin >> a[i];
+        }
+        t2.setV(a);
+        cout << "\Al treilea tablou este: "; 
+        t3.tab_scad(t1, t2);
+}
+
+
+/*Blidar Alexandra, 2115, lb07, p3
+Modelati clasa Student care sa contina atributele private nume, prenume, note (tablou 7 valori
+int), grupa. Alocati dinamic memorie pentru n studenti. Calculati media cu o metoda din clasa
+si sortati studentii dupa medie, afisand datele fiecarui student (nume, prenume, grupa, medie).
+Implementati si destructorul clasei care sa afiseze un mesaj.
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+const int dim = 7;
+
+class Student {
+        char nume[21];
+        char prenume[21];
+        int note[dim];
+        int grupa;
+public:
+        void setN(char nu[]) {
+                strcpy(nume, nu);
+        }
+        void setP(char p[]) {
+                strcpy(prenume, p);
+        }
+        void setNOTE(int no[]) {
+                for (int i = 0;i < dim;i++)
+                        note[i] = no[i];
+        }
+        void setG(int gr) {
+                grupa = gr;
+        }
+        char* getN() {
+                return nume;
+        }
+        char* getP() {
+                return prenume;
+        }
+        int* getNO() {
+                        return note;
+        }
+        int getG() {
+                return grupa;
+        }
+        int media() {
+                int m = 0;
+                for (int i = 0; i < dim;i++) {
+                        m += note[i];
+                }
+                return m / dim;
+        }
+};
+
+void citire(Student*, int);
+void afisare(Student*, int);
+int comparare(const void* a, const void* b);
+
+int main() {
+        int n;
+        Student* s;
+        cout << "\nInroduceti numarul de studenti: "; cin >> n;
+        s = new(nothrow) Student[n];
+        cout << "\n\tIntroduceti studentii: ";
+        for (int i = 0; i < n; i++)
+        {
+                cout << "\nStudent " << i + 1;
+                citire(s + i, n);
+        }
+        cout << "\n\tStudentii ordonati dupa medie: ";
+        qsort(s, n, sizeof(Student), comparare);
+        for (int i = 0; i < n; i++)
+        {
+                cout << "\nStudent " << i + 1;
+                afisare(s + i, n);
+        }
+}
+
+void citire(Student* s, int n)
+{
+        char* nume;
+        char* prenume=nullptr;
+        int i = 0;
+        int grupa, note[7];
+        cout << "\n\tNume: ";
+        cin >> nume;
+        (s + i)->setN(nume);
+        cout << "\tPrenume: ";
+        cin >> prenume;
+        (s + i)->setP(prenume);
+        cout << "\tNote: ";
+        for (int i = 0; i < 7; i++)
+        {
+                cin >> *(note + i);
+        }
+        (s + i)->setNOTE(note);
+        cout << "\tGrupa: ";
+        cin >> grupa;
+        (s + i)->setG(grupa);
+}
+
+void afisare(Student* s, int n)
+{
+        int i = 0;
+        int note[7];
+        cout << "\nNume: " << s->getN() << "; prenume: " << s->getP() << "; grupa:" << s->getG();
+        cout << " si note: ";
+        for (int j = 0; j < 7; j++)
+        {
+                cout << *((s->getNO()) + j) << " ";
+        }
+}
+
+int comparare(const void* a, const void* b) {
+        Student* ma = (Student*)a;
+        Student* mb = (Student*)b;
+        if (ma->media() > mb->media())
+        {
+                return 1;
+        }
+        else
+        {
+                return 0;
+        }
+}
+
+
+/*Blidar Alexandra, 2115, lab07, p4
+Sa se scrie o aplicatie in care se modeleaza clasa Student cu nume, prenume, numar note si
+notele din sesiunea din iarna declarat printr-un pointer de tip int. Sa se afiseze numele
+studentilor din grupa care au restante si apoi numele primilor 3 studenti din grupa in ordinea
+mediilor, care se va afisa si ea.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+const int dim = 50;
+const int NrNote = 6;
+
+class Student
+{
+    char nume[dim];
+    char prenume[dim];
+    float medie = 0;
+    int note[NrNote];
+    int grupa;
+public:
+    void setM(float a)
+    {
+        medie = a;
+    }
+
+    void setN(char nume[dim])
+    {
+        strcpy(this->nume, nume);
+    }
+
+    void setP(char p[dim])
+    {
+        strcpy(prenume, p);
+    }
+    void setG(int grupa)
+    {
+        this->grupa= grupa;
+    }
+    void setMediaN(float note)
+    {
+        this->medie = note;
+    }
+    void setNOTE()
+    {
+        for (int i = 0; i < NrNote; i++)
+            cin >> note[i];
+    }
+    char* getN()
+    {
+        return nume;
+    }
+
+    char* getP()
+    {
+        return prenume;
+    }
+
+    int getNOTE() {
+        for (int i = 0; i < NrNote; i++)
+            return note[i];
+    }
+
+    int getG()
+    {
+        return grupa;
+    }
+
+    float getM()
+    {
+        return medie;
+    }
+
+    float media()
+    {
+        float m = 0;
+        for (int i = 0; i < NrNote; i++)
+        {
+            m += note[i];
+        }
+        return m /= NrNote;
+    }
+    void restanti() {
+        int ok=0;
+        for (int i = 0; i < NrNote; i++)
+            if (note[i] < 4) ok++;
+        if (ok != 0)
+            cout<<nume;
+    }
+    ~Student()
+    {
+        cout << "Acesta este destructorul!";
+    }
+};
+
+void citire(Student* s1, int n);
+void sortare(Student* s1, int n);
+
+int main() {
+    int n;
+    cout << "\nIntroduceti numarul de studenti: ";
+    cin >> n;
+    Student* s1 = new Student[n];
+    citire(s1, n);
+    cout << "\nRestantii din grupa sunt: ";
+    for (int i = 0; i < n; i++)
+        s1[i].restanti();
+    cout << "\nGrupa sortata este: \n";
+    sortare(s1, n);
+}
+
+void citire(Student* s1, int n)
+{
+    char nume[dim], prenume[dim];
+    int grupa;
+    for (int i = 0; i < n; i++)
+    {
+        cout << "\nStudent " << i + 1;
+        cout << "\nNume: ";
+        cin >> nume;
+        s1[i].setN(nume);
+
+        cout << "Prenume: ";
+        cin >> prenume;
+        s1[i].setP(prenume);
+
+        cout << "Grupa: ";
+        cin >> grupa;
+        s1[i].setG(grupa);
+
+        cout << "Note: ";
+        s1[i].setNOTE();
+
+        s1[i].setMediaN(s1[i].media());
+    }
+}
+
+void sortare(Student* s1, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n - 1; j++)
+        {
+            if (s1[i].getM() < s1[i + 1].getM())
+            {
+                int tG;
+                float tM = 5;
+                char* tN;
+                char* tP;
+
+                tM = s1[i].getM();
+                s1[i].setM(s1[i + 1].getM());
+                s1[i + 1].setM(tM);
+
+                tN = s1[i].getN();
+                s1[i].setN(s1[i + 1].getN());
+                s1[i + 1].setN(tN);
+
+                tP = s1[i].getP();
+                s1[i].setP(s1[i + 1].getP());
+                s1[i + 1].setP(tP);
+
+                tG = s1[i].getG();
+                s1[i].setG(s1[i + 1].getG());
+                s1[i + 1].setG(tG);
+            }
+        }
+    }
+    for (int i = 0; i < n; i++)
+    {
+        cout << "\n" << s1[i].getN() << " " << s1[i].getP();
+        cout << "\nGrupa: " << s1[i].getG();
+        cout << "\nMedia: " << s1[i].getM() << "\n\n";
+    }
+}
