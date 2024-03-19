@@ -1,0 +1,274 @@
+// Blidar Alexandra, 2115, Lab 8 p1
+/*Programul determina valoarea medie a elementelor pozitive/negative dintr-un tablou unidimensional. */
+#define _CRT_SECURE_NO_WARNINGS
+#include <cstdio>
+
+void citire(int m, int v[]);
+
+int main()
+{
+	int i, m, sp, sn, p, n, v[101];
+	printf("Introduceti m <= 101:");
+	scanf("%d", &m);
+	citire(m, v);
+	p = n = sp = sn = 0;
+	for (i = 0; i < m; i++)
+	{
+		if (v[i] < 0)
+		{
+			sn += v[i];
+			n++;
+		}
+		else
+		{
+			sp += v[i];
+			p++;
+		}
+	}
+	if (n)
+	{
+		printf("Valoarea medie pentru elementele negative = %g\n", (float)sn / n);
+	}
+	if (p)
+	{
+		printf("Valoarea medie pentru elementele pozitive = %g\n", (float)sp / p);
+	}
+	return 0;
+}
+void citire(int m, int v[])
+{
+	int i;
+	for (i = 0; i < m; i++)
+	{
+		printf("v[%d] = ", i);
+		scanf("%d", &v[i]);
+	}
+}
+
+
+// Blidar Alexandra, 2115, Lab 8 p2
+/*Programul determina cel mai mic element pozitiv dintr-un tablou unidimensional*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+void citire(int n, int v[]);
+int main()
+{
+	int i, n, minim, v[101];
+	printf("Introduceti n <= 101: ");
+	scanf("%d", &n);
+	citire(n, v);
+	if (n > 0)
+	{
+		minim = -1;
+		for (i = 0; i < n; i++)
+		{
+			if (v[i] >= 0)
+			{
+				if (minim == -1 || v[i] < minim)
+				{
+					minim = v[i];
+				}
+			}
+		}
+		if (minim == -1)
+		{
+			printf("Nu exista numere pozitve");
+		}
+		else
+		{
+			printf("Cel mai mic element pozitiv este : % d", minim);
+		}
+	}
+	else
+	{
+		printf("Date eronate");
+	}
+
+
+	return 0;
+}
+void citire(int n, int v[])
+{
+	int i;
+	for (i = 0; i < n; i++)
+	{
+		printf("v[%d] = ", i);
+		scanf("%d", &v[i]);
+	}
+}
+
+
+// Blidar Alexandra, 2115, Lab 8 p3
+/*Programul citeste de la tastatura un tablou de 10 avlori intregi. Este definita o functie care primeste tabloul ca parametru si il 
+ordoneza crescator.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+void sortare(int v[]);
+void citire(int v[]);
+int main()
+{
+	int i, v[10];
+	printf("Introduceti elementele tabloului:\n");
+	citire(v);
+	sortare(v);
+	for (i = 0; i < 10; i++)
+	{
+		printf("%d ", v[i]);
+	}
+	return 0;
+}
+void citire(int v[])
+{
+	int i;
+	for (i = 0; i < 10; i++)
+	{
+		printf("v[%d] = ", i);
+		scanf("%d", &v[i]);
+	}
+}
+void sortare(int v[])
+{
+	int i, j, aux;
+	for (i = 0; i < 9; i++)
+	{
+		for (j = i + 1; j < 10; j++)
+		{
+			if (v[i] > v[j])
+			{
+				 aux= v[i];
+				v[i] = v[j];
+				v[j] = aux;
+			}
+		}
+	}
+}
+
+
+// Blidar Alexandra, 2115, Lab 8 p5
+/*Programul citeste de la tastatura numele si preumele unei persoane si le afiseaza cu majuscula, separate de doua spatii tabulare.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	char a[101], b[101];
+	printf("Introduceti numele:\n");
+	scanf("%s", &a);
+	printf("Introduceti prenumele:\n");
+	scanf(" %s", &b);
+	if (a[0] >= 'a' && a[0] <= 'z')
+		a[0] -= 32;
+	if (b[0] >= 'a' && b[0] <= 'z')
+		b[0] -= 32;
+	printf(a);
+	printf("\t\t");
+	printf(b);
+	return 0;
+}
+
+
+//Blidar Alexandra, 2115, Lab 8 p8
+/*Programul preia de la tastatura "n" valori reale dintr-un tablou unidimensional, calculeaza cu o functie valoarea medie a valorilor introduse si 
+afiseaza cu o alta functie doar valorile din tablou mai mari decat media calculata.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+void citire(int m, float v[]);
+float media(int n, float v[]);
+void afisare(float mnr, int m, float v[]);
+int main()
+{
+	int n, m;
+	float v[101], mnr;
+	printf("Introduceti m <= 101: ");
+	scanf("%d", &m);
+	citire(m, v);
+	printf("Introduceti n <= 101: ");
+	scanf("%d", &n);
+	mnr = media(n, v);
+	printf("\nElementele mai mari decat media calculata sunt:\n");
+	afisare(mnr, m, v);
+	
+}
+void citire(int m, float v[])
+{
+	int i;
+	for (i = 0; i < m; i++)
+	{
+		printf("v[%d] = ", i);
+		scanf("%f", &v[i]);
+	}
+}
+float media(int n, float v[])
+{
+	int i; 
+	float media=0;
+	for (i = 0; i < n; i++)
+	{
+		media+=v[i];
+	}
+	return (media / n)*1.0;
+}
+void afisare(float mnr, int m, float v[])
+{
+	int i;
+	for (i = 0;i < m;i++)
+	{
+		if (v[i] > mnr)
+		{
+			printf("%f", v[i]);
+			printf("\t");
+		}
+	}
+}
+
+
+//Blidar Alexandra, 2115, Lab 8 p9
+/*Programul citeste intr-un tablou unidimensional "n" valori intregi si determina numarul valorilor negative impare si afiseaza acest numar si 
+elementele respective. */
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+void citire(int n, int v[]);
+void det_afisare(int n, int v[]);
+int main()
+{
+	int n, v[101];
+	printf("\nIntroduceti un numar n < 101:");
+	scanf("%d", &n);
+	citire(n, v);
+	printf("\nElementele negative si impare ale tabloului sunt:");
+	det_afisare(n, v);
+}
+void citire(int n, int v[])
+{
+	int i;
+		for (i = 0;i < n;i++)
+		{
+			printf("v[%d]=", i);
+			scanf("%d", &v[i]);
+		}
+}
+void det_afisare(int n, int v[])
+{
+	int i, nr=0;
+	for (i = 0;i < n;i++)
+	{
+		if (v[i] < 0 && (v[i] % 2 != 0))
+		{
+			printf("\n%d ", v[i]);
+			nr++;
+		}
+	}
+	if (nr)
+		printf("\nNumarul lor este:%d ", nr);
+	else
+		printf("Nu exista numere negative si impare");
+}

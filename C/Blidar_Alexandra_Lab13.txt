@@ -1,0 +1,163 @@
+//Blidar Alexandra, grupa 2115, laborator 13, p1
+/*Programul citeste si apoi afiseaza date intregi dintr-un fisier text al carui nume 
+este citit de la consola. Creati prin prealabil fisierul prin program.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+int main() 
+{
+	FILE* fp;
+	int i, contor = 0;
+	fp = fopen("test.txt", "r");
+
+	if (!fp) {
+		perror("\neroare");
+		exit(1);
+	}
+	while (fscanf(fp, "%d", &i) != EOF)
+		if (i > 0) {
+			contor++;
+			printf("\nval citita = %d", i);
+		}
+	fclose(fp);
+	fp = fopen("test.txt", "a");
+	if (!fp) {
+		printf("\neroare\n");
+		exit(1);
+	}
+	fprintf(fp, " %d", contor);
+	fclose(fp);
+	return 0;
+}
+
+
+//Blidar Alexandra, 2115, Lab13 p3
+/*Programul citeste de la tastatura n numere intregi pe care le scrie intr-un fisier text cu numele citit de la tastatura. Se citesc apoi numerele
+din fisier, se determina media lor care se scrie la finalul fisierului si se afiseaza si pe ecran.*/
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+float media(int [], int);
+
+int main() {
+        char fn[256];
+        printf("Introduceti numele fisierului: ");
+        scanf("%s", fn);
+        strcat(fn, ".txt");
+        FILE* fp = fopen(fn, "w+");
+
+        if (!fp) {
+                perror("\nERROR!");
+                exit(1);
+        }
+        fclose(fp);
+        fp = fopen(fn, "a");
+        int n;
+        printf("Introduceti marimea: ");
+        scanf("%d", &n);
+        printf("Introduceti %d numere intregi: ", n);
+        int x[20];
+        for (int i = 0; i < n; i++) {
+                scanf("%d", &x[i]);
+                fprintf(fp, "%d ", x[i]);
+                fscanf(fp, "%d", x[i]);
+        }
+        float m = media(x, n);
+        printf("Media este %.2f", m);
+        fprintf(fp, "%.2f\n", m);
+
+        fclose(fp);
+}
+
+float media(int x[], int n) {
+        float m = 0;
+        for (int i = 0; i < n; i++) {
+                m += x[i];
+        }
+        return m / n;
+}
+
+
+//Blidar Alexandra, 2115, Lab13 p4
+/*Programul citeste de la tastatura un caracter apoi scrie acest caracter intr-un fisier text pe n linii, cate n caractere pe fiecare linie, n 
+citit de la consola.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<stdlib.h>
+
+void print(FILE*, char, int);
+
+int main() {
+        FILE* fp;
+        char c;
+        int n;
+        printf("Introduceti un singur carcter: ");
+        scanf("%c", &c);
+        printf("Introduceti n: ");
+        scanf("%d", &n);
+        fp = fopen("file.txt", "w");
+        if (!fp) {
+                perror("\nERROR!");
+                exit(1);
+        }
+        print(fp, c, n);
+        fclose(fp);
+
+}
+
+void print(FILE* fp, char c, int n) {
+        for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                        fprintf(fp, "%c", c);
+                }
+                fprintf(fp, "\n");
+        }
+}
+
+
+
+//Blidar Alexandra, 2115, Lab13 p7
+/*Programul citeste caracter cu caracter un fisier text si converteste primul caracter al fiecarui cuvant in majuscula.*/
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<stdlib.h>
+
+int main() 
+{
+
+    FILE* fp = fopen("p7.txt", "r");
+    if (!fp) {
+        perror("\nERROR!");
+    }
+    char c;
+    while ((c = fgetc(fp)) != EOF){
+        printf("%c", c);
+    }
+    char s[20];
+    s[20] = fgetc(fp);
+        for (int i = 0; s[i] != '\0'; i++){
+                if (i == 0)
+                {
+                        if ((s[i] >= 'a' && s[i] <= 'z'))
+                                s[i] = s[i] - 32;
+                        continue;
+                }
+                if (s[i] == ' '){
+                        i++;
+                        if (s[i] >= 'a' && s[i] <= 'z'){
+                                s[i] = s[i] - 32; 
+                        }
+                }
+                else if (s[i] >= 'A' && s[i] <= 'Z')
+                                s[i] = s[i] + 32; 
+                }
+
+        fclose(fp);
+
+}

@@ -1,0 +1,305 @@
+//Blidar Alexandra, grupa 2115, Lab07, p1
+/*Programul citeste 3 numere de la tastatura(a, b, c), determina aria dreptunghiului ale caror
+laturi sunt a si b, si verifica daca diagonala este egala cu c.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <math.h>
+#include <cmath>
+
+int main()
+{
+	float a, b, c, aria=0;
+	printf("Introduceti laturile dreptunghiului:\nl=");
+	scanf("%f", &a);
+	printf("\nL=");
+	scanf("%f", &b);
+	printf("\nIntroduceti o valoare pentru c:");
+	scanf("%f", &c);
+	aria = a * b;
+	printf("Aria dreptunghiului este:%.2f", aria);
+	if (c = sqrt(a * a + b * b))
+		printf("\nc este diagonala dreptunghiului.");
+	else
+		printf("\nc nu este diagonala dreptunghiului.");
+}
+
+
+//Blidar alexandra, 2115, Lab 07 p2
+/*Programul verifica daca un numar citit de la tastatura este patrat perfect.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <cmath>
+
+int main()
+{
+	int x;
+	printf("Introduceti un numar:");
+	scanf("%d", &x);
+	if ((int)sqrt(x) == sqrt(x))
+		printf("\nx este patrat perfect.");
+	else
+		printf("\nx nu este patrat perfect.");
+}
+
+
+//Blidar Alexandra, 2115, Lab 07 p3
+/*Programul calculeaza a^n prin inmultiri repetate, unde n este citit de la consola.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	float a, p=1;
+	unsigned int n;
+	printf("Introduceti un numar real:");
+	scanf("%f", &a);
+	printf("\nIntroduceti un numar natural:");
+	scanf("%d", &n);
+	for (int i = 0;i < n;i++)
+		p *= a;
+	printf("\n%.2f la puterea %d este: %.2f", a, n, p);
+}
+
+
+//Blidar Alexandra, 2115, Lab07 p4
+/*Programul citeste de la tastatura un numar intreg n si calculeaza n!*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int n, i, r=1;
+	printf("Introduceti un numar intreg:");
+	scanf("%d", &n);
+	if (n)
+		for (i = 1;i <= n;i++)
+			r *= i;
+	printf("\n%d! este:%d", n, r);
+}
+
+
+//Blidar Alexandra, 2115,Lab 07 p5
+/*Programul determina cel mai mare numar prim mai mic decat numarul dat si determina toate numerele prime mai mici decat numarul dat*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int prim1(int n);
+void prim2(int n);
+
+int main()
+{
+	int n;
+	printf("Introduceti un numar intreg:");
+	scanf("%d", &n);
+	printf("Cel mai mare numar prim mai mic decat numarul dat este:");
+	prim1(n);
+	printf("\nNumerele prime mai mici decat numarul dat sunt:");
+	prim2(n);
+}
+int prim1(int n)
+{
+	int ok, d, i;
+	for (i = n - 1;i >= 2;i--)
+	{
+		ok = 1;
+		if (i < 2 || (i % 2 == 0 && i > 2))
+			ok = 0;
+		d = 3;
+		while (d * d <= i && ok == 1)
+			if (i % d == 0)
+				ok = 0;
+			else
+				d += 2;
+		if (ok == 1)
+		{
+			printf("\n%d", i);
+			return 0;
+		}
+	}
+}
+void prim2(int n)
+{
+	int ok, d, i;
+	for (i = n - 1;i >= 2;i--)
+	{
+		ok = 1;
+		if (i < 2 || (i % 2 == 0 && i > 2))
+			ok = 0;
+		d = 3;
+		while (d * d <= i && ok == 1)
+			if (i % d == 0)
+				ok = 0;
+			else
+				d += 2;
+		if (ok == 1)
+		{
+			printf("%d ", i);
+		}
+	}
+}
+
+
+//Blidar Alexandra, 2115, Lab07 p6
+/*Programul determina cel mai mare divizor comun al doi intregi*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int a, b, r;
+	printf("Introduceti doua numere intregi a si b, unde b diferit de 0:\na=");
+	scanf("%d", &a);
+	printf("\nb=");
+	scanf("%d", &b);
+	while (b != 0)
+	{
+		r = a % b;
+		a = b;
+		b = r;
+	}
+	printf("Cel mai mare divizor comun al numerelor introduse este:%d", a);
+}
+
+
+//Blidar Alexandra, 2115, Lab07 p7
+/*Programul determina toti divizorii unui numar.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int n, d;
+	printf("Introduceti un numar intreg:");
+	scanf("%d", &n);
+	printf("\nDivizorii lui %d sunt:", n);
+	for(d=1;d<=n/2;d++)
+		if (n % d == 0)
+		{
+			printf(" %d", d);
+		}
+}
+
+
+//Blidar Alexandra, 2115, Lab07 p8
+/*Programul calculeaza produsul a doua numere intregi folosind numarul corespunzator de adunari.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int a, b, i, s=0;
+	printf("Introduceti doua valori intregi:\na=");
+	scanf("%d", &a);
+	printf("\nb=");
+	scanf("%d", & b);
+	for (i = 1;i <= b;i++)
+	{
+		s += a;
+	}
+	printf("\nProdusul numerelor %d si %d este: %d", a, b, s);
+}
+
+
+//Blidar Alexandra, 2115, Lab07 p10
+/*Programl determina numarul de cifre ce compun un numar intreg citit de la tastatura.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int x, nr=0, n;
+	printf("Introduceti un numar intreg:");
+	scanf("%d", &x);
+	n = x;
+	while (x)
+	{
+		nr++;
+		x /= 10;
+	}
+	printf("\nNumarul de cifre al lui %d este: %d", n, nr);
+}
+
+
+//Blidar Alexandra, 2115, Lab 07 p11
+/*Programul citeste de la tastatura n numere intregi si afiseaza toate numerele impare din sir.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int n, v[101],i;
+	printf("Introduceti un numar intreg n:");
+	scanf("%d", &n);
+	printf("\nIntroduceti numere in sir:");
+	for (i = 0;i < n;i++)
+	{
+		printf("\nv[%d]=", i);
+		scanf("%d", &v[i]);
+	}
+	printf("Elementele impare ale sirului sunt:");
+	for (i = 0;i < n;i++)
+		if (v[i] % 2 != 0)
+			printf("%d", v[i]);
+}
+
+
+//Blidar Alexandra, 2115, Lab 07 p13
+/*Programul determina cmmmc a doua numere citite de la tastatura.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int a, b, r, cmmmc, x, y;
+	printf("Introduceti doua numere intregi a si b, unde b diferit de 0:\na=");
+	scanf("%d", &a);
+	printf("\nb=");
+	scanf("%d", &b);
+	x = a;
+	y = b;
+	while (b != 0)
+	{
+		r = a % b;
+		a = b;
+		b = r;
+	}
+	cmmmc = (x * y) / a;
+	printf("\nCmmmc al numerelor citite este: %d", cmmmc);
+}
+
+
+//Blidar Alexandra, 2115, Lab 07 p14
+/*Programul citeste n numere intregi de la tastatura si le afiseaza pe cele divizbile cu 3.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int n, v[101], i;
+	printf("Introduceti un numar intreg n:");
+	scanf("%d", &n);
+	printf("\nIntroduceti numere in sir:");
+	for (i = 0;i < n;i++)
+	{
+		printf("\nv[%d]=", i);
+		scanf("%d", &v[i]);
+	}
+	printf("Numerele divizibile cu 3 din sir sunt:");
+	for (i = 0;i < n;i++)
+	{
+		if (v[i] % 3 == 0)
+			printf(" %d", v[i]);
+	}
+}

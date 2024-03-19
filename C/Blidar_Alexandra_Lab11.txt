@@ -1,0 +1,127 @@
+/*Blidar Alexandra, grupa 2115, Lab11 p1
+Programul citeste n numere reale pe care le stocheaza intr-un tablou alocat dinamic,
+afiseaza suma elementelor negative citite, ia la sfarsit elibereaza zona de memorie alocata*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <malloc.h>
+int main()
+{
+        int n, i, * a, neg;
+        printf("\nDati lungimea tabloului :");
+        scanf("%d", &n);
+        a = (int*)malloc(sizeof(int) * n); // alocam dinamic intr-un pointer, o zona de memorie pentru marimea tabloului
+        neg = 0;
+        for (i = 0;i < n; i++) 
+        {
+                printf("a[%d]=", i);
+                scanf("%d", a + i);
+                if ((*(a + i)) < 0) 
+                        neg = neg + *(a + i);
+        }
+        printf(" %d", neg);
+        return 0;
+}
+
+
+//Blidar Alexandra, grupa 2155, Lab11 p2
+/*Fie o aplicatie de gestiune distribuita care considera ca trateaza activitatea din 5 orase diferite in fiecare oras fiind 3 birouri 
+de vanzare pe teritoriul respectiv. Sa se creeze in cadrul unei functii un tablou de 5 pointeri catre date de tip flotant, fiecare 
+pointer din acest tablou referind o zona in heap alocata dinamic de 3 date flotante ce reprezinta situatia vanzarilor la sfarsitul 
+unei zile. Se cere prelucrarea datelor din fiecare oras, respectiv din fiecare birou de vanzare, prelucrare ce va include:
+- functie care permite introducerea datelor pentru cele 5 orase si respectiv pentru fiecare oras pentru cele 3 magazine din oras;
+- functie ce permite determinarea totalului de vanzari pe fiecare oras in parte, valoare pe care o va returna astfel ca in programul 
+principal se va calcula si afisa media vanzarilor din toate cele 5 orase;
+- functie care va permite eliberarea spatiului de memorie alocat dinamic astfel incat daca aceiasi firma are alte 3 magazine in cele 
+5 orase de profil diferit sa poata sa realoce un spatiu echivalent pentru noile prelucrari pe care le va efectua. */
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <stdio.h>
+#include <malloc.h>
+void citire(float** b);
+void media(float** b);
+void eliberare(float** b);
+int main() 
+{
+        float** b;
+        b = (float**)malloc(5 * sizeof(float));
+        citire(b);
+        media(b);
+        eliberare(b);
+}
+void citire(float** b) 
+{
+        int i, j;
+        
+        for (i = 0;i < 5;i++) 
+        {
+                b[i] = (float*)malloc(3 * sizeof(float));
+                for (j = 0;j < 3;j++) 
+                {
+                        printf("\nOrasul %d , chioscul %d:", i, j);
+                        scanf("%f", &b[i][j]);
+                }
+        }
+}
+void media(float** b) 
+{
+        float suma;
+        int i, j;
+        for (i = 0;i < 5;i++) 
+        {
+                suma = 0;
+                for (j = 0;j < 3;j++) 
+                { 
+                        suma += b[i][j]; 
+                }
+                printf("\nPentru orasul %d, media vanzarilor este:%f", i, suma / 3.0);
+        }
+}
+void eliberare(float** b) 
+{
+        int i;
+        for (i = 0;i < 5;i++)
+                free(b[i]);
+        free(b);
+}
+
+
+//Blidar Alexandra, grupa 2115, Lab11 p4
+/*Programul aloca dinamic memorie pentru "n" siruri de caractere, care se vor citi de la tastatura*/
+#include<iostream>
+using namespace std;
+#include<stdio.h>
+#include<malloc.h>
+void main()
+{
+        int n, m, i, j;
+        char* c;
+        cout << "\nIntroduceti numarul de siruri de caractere: ";
+        cin >> n;
+        cout << "\nIntroduceti dimensiunea sirului: ";
+        cin >> m;
+        if (n < 0)
+        {
+                cout << "\nReintroduceti numarul de siruri: ";
+        }
+        else
+        {
+                for (i = 0;i < n;i++)
+                {
+                        c = (char*)malloc(n * sizeof(char));
+                        if (c == NULL)
+                        {
+                                cout << "\nEroare de calcul!";
+                                return;
+                        }
+                        cout << "\nIntroduceti cele m caractere:";
+                        for (j = 0;j < m;j++)
+                        {
+                                cout << "\n c[" << j << "]= ";
+                                cin >> *(c + j);
+                        }
+                        if (c)
+                                free(c);
+                }
+        }
+}

@@ -1,0 +1,192 @@
+//Blidar alexandra, 2115, Lab09 p1
+/*Progrmul citeste elementele a doua tablouri unidimensionale de numere intregi si afiseaza produsul scalar al acestora.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+void citire(int e[], int n);
+void produs(int a[], int b[], int n, int* p);
+
+int main()
+{
+	int n, a[101], b[101], p;
+	printf("\nIntroduceti un numar n < 101:");
+	scanf("%d", &n);
+	citire(a, n);
+	citire(b, n);
+	produs(a, b, n, &p);
+	printf("Produsul scalar al tablourilor este:%d",p );
+}
+void citire(int e[], int n)
+{
+	int i;
+	for (i = 0; i < n; i++)
+	{
+		printf("e[%d]=", i);
+		scanf("%d", &e[i]);
+	}
+}
+void produs(int a[], int b[], int n, int* p)
+{
+	int i;
+	*p = 0;
+	for (i = 0;i < n;i++) 
+	{
+		*p += a[i] * b[i];
+	}
+}
+
+
+//Blidar Alexandra, 2115, Lab 09, p3
+/*Programul citeste de la tastatura numere reale ce vor fi stocate intr-un tablou unidimensional. 
+Sa se scrie o functie ce copiaza intr-un alt tablou valorile din primul tablou care sunt mai mari decat valoarea medie a valorilor preluate.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+void citire(int n, float v[]);
+void media(int n, float v[], float* m);
+void fcopi(int n, float a[], float b[], float m);
+
+int main()
+{
+	int n,i;
+	float a[101], b[101], m;
+	printf("Introduceti un numar n<101:");
+	scanf("%d", &n);
+	citire(n, a);
+	media(n, a, &m);
+	fcopi(n, a, b, m);
+	printf("\nElementele tabloului a sunt:");
+	for (i = 0;i < n;i++)
+	{
+		for (i = 0;i < n;i++)
+			printf("%3f ", a[i]);
+	}
+	printf("\nElementele tabloului b sunt:");
+	for (i = 0;i < n;i++)
+	{
+		for (i = 0;i < n;i++)
+			printf("%3f ", b[i]);
+	}
+}
+void citire(int n, float v[])
+{
+	int i;
+	for (i = 0;i < n;i++)
+	{
+		printf("a[%d]=", i);
+		scanf("%3f", &v[i]);
+	}
+}
+void media(int n, float v[], float* m)
+{
+	int i;
+	*m = 0;
+	for (i = 0;i < n;i++)
+	{
+		*m += v[i];
+	}
+	*m /= n;
+}
+void fcopi(int n, float a[], float b[], float m)
+{
+	int i;
+	for (i = 0;i < n;i++)
+	{
+		if (a[i] > m)
+			b[i] = a[i];
+		else
+			b[i] = 0;
+	}
+}
+
+
+//Blidar Alexandra, 2115, Lab 09 p4
+/*Programul citeste de la tastatura un sir de caractere din care elimina caracterele care se repeta, mai apoi afiseaza noul sir.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <cstring>
+
+void eliminare(char s[]);
+
+int main()
+{
+	char s[255];
+	printf("Introduceti un sir de caractere = ");
+	scanf("%s", &s);
+	eliminare(s);
+	printf(s);
+	return 0;
+
+}
+void eliminare(char s[])
+{
+	char* m, * n;
+	int i;
+	i = 0;
+	while (i < strlen(s) - 1)
+	{
+		if (s[i] == s[i + 1])
+		{
+			m = s + i + 1;
+			i = i + 1;
+			while (s[i - 1] == s[i]) i++;
+			n = s + i;
+			i = i - (n - m);
+			while (*n != '\0')
+			{
+				*m = *n;
+				n++;
+				m++;
+			}
+			*m = '\0';
+		}
+		else
+			i++;
+	}
+}
+
+
+//Blidar alexndra, 2115, Lab 09 p6
+/*Programul citeste de la tastatura un sir de caractere si contine o functie care afiseaza caracterele ce compun sirul si numarul 
+lor de aparitii.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+void aparitii(char s[]);
+
+int main()
+{
+	char s[255];
+	printf("Introduceti un sir de carcatere = ");
+	scanf("%s", &s);
+	printf("Caracterele care compun sirul, cat si numarul de aparitii al fiecaruia sunt:");
+	aparitii(s);
+	return 0;
+}
+void aparitii(char s[])
+{
+	char* p;
+	int i, a;
+	for (i = 33; i < 127; i++)
+	{
+		a = 0;
+		p = s;
+		while (*p != '\0')
+		{
+			if (*p == i)
+			{
+				a++;
+			}
+			p++;
+		}
+		if (a)
+		{
+			printf("\n%c %2d", i, a);
+		}
+	}
+
+}
